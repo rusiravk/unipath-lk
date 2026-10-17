@@ -1,13 +1,607 @@
 {
   "schema_version": "1",
   "mode": "real",
-  "version": "real-0",
-  "banner": "Real catalogue — no records have been reviewed yet",
-  "notes": "Intentionally empty. Real records are added only with current official, claim-specific evidence (see docs/architecture.md section 6). Candidate leads: SLIATE HNDIT, UCSC BIT, UoM BIT, UNIVOTEC B.Tech, NAITA/VTA IT courses. None of these is verified here.",
-  "institutions": [],
-  "qualifications": [],
-  "goals": [],
-  "evidence": [],
-  "offerings": [],
-  "transitions": []
+  "version": "real-research-2026-10-17-v1",
+  "banner": "Real programme research — partially reviewed; eligibility, intake and costs require confirmation",
+  "notes": "REVIEW DATA, not a verified admission engine or a tested drop-in. Same field structure as supplied fixture. Read data-review.md before activation. Never merge with demo catalogue. HNDIT 2026 deadline has passed; future intake unconfirmed. Null rule/duration/cost means unknown. Unknown scheduled expenses use an upfront null sentinel to block affordability, not to assert payment timing. remote means distance learning, not guaranteed zero physical attendance. Goal mapping means education objective, not employment guarantee. No SLQF/NVQ equivalence is asserted.",
+  "institutions": [
+    {
+      "id": "LK-INST-UOM",
+      "name": "University of Moratuwa",
+      "district": "Colombo"
+    },
+    {
+      "id": "LK-INST-SLIATE",
+      "name": "Sri Lanka Institute of Advanced Technological Education (SLIATE)",
+      "district": "Colombo"
+    }
+  ],
+  "qualifications": [
+    {
+      "id": "LK-Q-AL-3-PASSES-ONE-SITTING",
+      "name": "Local GCE A/L: three main-subject passes in one sitting (excludes General English)"
+    },
+    {
+      "id": "LK-Q-AL-3-PASSES-ONE-SITTING-AFTER-2000",
+      "name": "Local GCE A/L: three main-subject passes in one sitting after 2000"
+    },
+    {
+      "id": "LK-Q-OL-MATH-PASS",
+      "name": "Local GCE O/L Mathematics: S or higher"
+    },
+    {
+      "id": "LK-Q-OL-MATH-C-OR-HIGHER",
+      "name": "Local GCE O/L Mathematics: C or higher"
+    },
+    {
+      "id": "LK-Q-OL-ENGLISH-PASS",
+      "name": "Local GCE O/L English: S or higher"
+    },
+    {
+      "id": "LK-Q-SLIATE-HNDIT-FT",
+      "name": "SLIATE Higher National Diploma in Information Technology — full-time completion; curriculum and training checked separately"
+    },
+    {
+      "id": "LK-Q-UOM-BIT",
+      "name": "University of Moratuwa Bachelor of Information Technology"
+    }
+  ],
+  "goals": [
+    {
+      "id": "LK-GOAL-IT-DEGREE",
+      "name": "Complete an IT-related degree",
+      "min_award_level": "degree"
+    }
+  ],
+  "evidence": [
+    {
+      "id": "EV-UOM-INTAKE",
+      "subject": "intake.application_window",
+      "status": "verified",
+      "source_title": "UoM CODL homepage — intake notice",
+      "source_url": "https://bit.uom.lk/",
+      "excerpt": "Research summary (paraphrased): December 2026 intake: applications advertised until 31 October 2026.",
+      "checked_date": "2026-10-17",
+      "applies_to": "LK-UOM-BIT-REGULAR-2026-DEC"
+    },
+    {
+      "id": "EV-UOM-ENTRY",
+      "subject": "entry_rule.local_AL_route",
+      "status": "unreviewed",
+      "source_title": "UoM BIT — Entry Requirements",
+      "source_url": "https://bit.uom.lk/bituom/",
+      "excerpt": "Research summary (paraphrased): Local route: O/L Mathematics C or higher; three main-subject A/L passes in one sitting after 2000. General page; confirm intake applicability. Other entry routes omitted.",
+      "checked_date": "2026-10-17",
+      "applies_to": "LK-UOM-BIT-REGULAR-2026-DEC"
+    },
+    {
+      "id": "EV-UOM-DURATION",
+      "subject": "duration_months",
+      "status": "verified",
+      "source_title": "UoM BIT — Overview",
+      "source_url": "https://bit.uom.lk/bituom/",
+      "excerpt": "Research summary (paraphrased): Programme duration: three years.",
+      "checked_date": "2026-10-17",
+      "applies_to": "LK-UOM-BIT-REGULAR-2026-DEC"
+    },
+    {
+      "id": "EV-UOM-MODE",
+      "subject": "delivery_mode",
+      "status": "unreviewed",
+      "source_title": "UoM BIT — Overview",
+      "source_url": "https://bit.uom.lk/bituom/",
+      "excerpt": "Research summary (paraphrased): Distance learning; independent online study offered. Physical assessment obligations not established.",
+      "checked_date": "2026-10-17",
+      "applies_to": "LK-UOM-BIT-REGULAR-2026-DEC"
+    },
+    {
+      "id": "EV-UOM-FEES",
+      "subject": "cost_items.programme_schedule",
+      "status": "unreviewed",
+      "source_title": "UoM BIT — Fees",
+      "source_url": "https://bit.uom.lk/bituom/",
+      "excerpt": "Research summary (paraphrased): Regular university fee table totals LKR 200,000; timing/details require the schedule in data-review.md, not monthly averaging.",
+      "checked_date": "2026-10-17",
+      "applies_to": "LK-UOM-BIT-REGULAR-2026-DEC"
+    },
+    {
+      "id": "EV-UOM-ADDITIONAL",
+      "subject": "cost_items.additional_expenses",
+      "status": "unreviewed",
+      "source_title": "Collection gap — not an institutional source",
+      "source_url": null,
+      "excerpt": "Research summary (paraphrased): Personal connectivity, travel and other applicable expenses have not been collected.",
+      "checked_date": "2026-10-17",
+      "applies_to": "LK-UOM-BIT-REGULAR-2026-DEC"
+    },
+    {
+      "id": "EV-HNDIT-DEHIWALA-CAMPUS",
+      "subject": "campus.delivery_mode",
+      "status": "verified",
+      "source_title": "SLIATE Admission Guideline 2026 — pp. 4–5",
+      "source_url": "https://apply.sliate.ac.lk/uploads/gazette/2026/guidline.pdf?20261017114452=",
+      "excerpt": "Research summary (paraphrased): 2026 guide lists full-time HNDIT at ATI Dehiwala.",
+      "checked_date": "2026-10-17",
+      "applies_to": "LK-SLIATE-HNDIT-FT-DEHIWALA-2026"
+    },
+    {
+      "id": "EV-HNDIT-DEHIWALA-ENTRY",
+      "subject": "entry_rule.academic_minimum",
+      "status": "verified",
+      "source_title": "SLIATE Admission Guideline 2026 — pp. 8–9",
+      "source_url": "https://apply.sliate.ac.lk/uploads/gazette/2026/guidline.pdf?20261017114452=",
+      "excerpt": "Research summary (paraphrased): Academic minimum: local A/L three main passes in one sitting; local O/L Mathematics and English passes.",
+      "checked_date": "2026-10-17",
+      "applies_to": "LK-SLIATE-HNDIT-FT-DEHIWALA-2026"
+    },
+    {
+      "id": "EV-HNDIT-DEHIWALA-TUITION",
+      "subject": "cost_items.tuition",
+      "status": "verified",
+      "source_title": "SLIATE Admission Guideline 2026 — p. 7",
+      "source_url": "https://apply.sliate.ac.lk/uploads/gazette/2026/guidline.pdf?20261017114452=",
+      "excerpt": "Research summary (paraphrased): Full-time programme tuition is free.",
+      "checked_date": "2026-10-17",
+      "applies_to": "LK-SLIATE-HNDIT-FT-DEHIWALA-2026"
+    },
+    {
+      "id": "EV-HNDIT-DEHIWALA-DURATION",
+      "subject": "duration_months",
+      "status": "verified",
+      "source_title": "SLIATE Admission Guideline 2026 — p. 7",
+      "source_url": "https://apply.sliate.ac.lk/uploads/gazette/2026/guidline.pdf?20261017114452=",
+      "excerpt": "Research summary (paraphrased): HNDIT duration: two and a half years.",
+      "checked_date": "2026-10-17",
+      "applies_to": "LK-SLIATE-HNDIT-FT-DEHIWALA-2026"
+    },
+    {
+      "id": "EV-HNDIT-DEHIWALA-SELECTION",
+      "subject": "selection.requirements",
+      "status": "unreviewed",
+      "source_title": "SLIATE Admission Guideline 2026 — pp. 8–10",
+      "source_url": "https://apply.sliate.ac.lk/uploads/gazette/2026/guidline.pdf?20261017114452=",
+      "excerpt": "Research summary (paraphrased): Academic eligibility is not selection. Capacity-based marking applies; complete admission policies require review.",
+      "checked_date": "2026-10-17",
+      "applies_to": "LK-SLIATE-HNDIT-FT-DEHIWALA-2026"
+    },
+    {
+      "id": "EV-HNDIT-DEHIWALA-WINDOW",
+      "subject": "intake.application_window",
+      "status": "verified",
+      "source_title": "SLIATE 2026 application portal",
+      "source_url": "https://apply.sliate.ac.lk/",
+      "excerpt": "Research summary (paraphrased): 2026 call: A/L 2025 or earlier; application fee LKR 1,000; announced deadline 23 August 2026 has passed.",
+      "checked_date": "2026-10-17",
+      "applies_to": "LK-SLIATE-HNDIT-FT-DEHIWALA-2026"
+    },
+    {
+      "id": "EV-HNDIT-DEHIWALA-EXPENSES",
+      "subject": "cost_items.non_tuition",
+      "status": "unreviewed",
+      "source_title": "Collection gap — not an institutional source",
+      "source_url": null,
+      "excerpt": "Research summary (paraphrased): Travel, accommodation, meals, materials and other applicable charges remain unknown.",
+      "checked_date": "2026-10-17",
+      "applies_to": "LK-SLIATE-HNDIT-FT-DEHIWALA-2026"
+    },
+    {
+      "id": "EV-LK-T-HNDIT-DEHIWALA-UOM",
+      "subject": "transition.requirements",
+      "status": "unreviewed",
+      "source_title": "UoM BIT — HNDIT lateral-entry conditions",
+      "source_url": "https://bit.uom.lk/bituom/",
+      "excerpt": "Research summary (paraphrased): Full-time HNDIT lateral consideration: all modules in accepted 2014/2021 curriculum, six-month training, aptitude pass. Applicability to this 2026 cohort and future intake remains unconfirmed.",
+      "checked_date": "2026-10-17",
+      "applies_to": "LK-T-HNDIT-DEHIWALA-UOM"
+    },
+    {
+      "id": "EV-HNDIT-GAMPAHA-CAMPUS",
+      "subject": "campus.delivery_mode",
+      "status": "verified",
+      "source_title": "SLIATE Admission Guideline 2026 — pp. 4–5",
+      "source_url": "https://apply.sliate.ac.lk/uploads/gazette/2026/guidline.pdf?20261017114452=",
+      "excerpt": "Research summary (paraphrased): 2026 guide lists full-time HNDIT at ATI Gampaha — Naiwala.",
+      "checked_date": "2026-10-17",
+      "applies_to": "LK-SLIATE-HNDIT-FT-GAMPAHA-2026"
+    },
+    {
+      "id": "EV-HNDIT-GAMPAHA-ENTRY",
+      "subject": "entry_rule.academic_minimum",
+      "status": "verified",
+      "source_title": "SLIATE Admission Guideline 2026 — pp. 8–9",
+      "source_url": "https://apply.sliate.ac.lk/uploads/gazette/2026/guidline.pdf?20261017114452=",
+      "excerpt": "Research summary (paraphrased): Academic minimum: local A/L three main passes in one sitting; local O/L Mathematics and English passes.",
+      "checked_date": "2026-10-17",
+      "applies_to": "LK-SLIATE-HNDIT-FT-GAMPAHA-2026"
+    },
+    {
+      "id": "EV-HNDIT-GAMPAHA-TUITION",
+      "subject": "cost_items.tuition",
+      "status": "verified",
+      "source_title": "SLIATE Admission Guideline 2026 — p. 7",
+      "source_url": "https://apply.sliate.ac.lk/uploads/gazette/2026/guidline.pdf?20261017114452=",
+      "excerpt": "Research summary (paraphrased): Full-time programme tuition is free.",
+      "checked_date": "2026-10-17",
+      "applies_to": "LK-SLIATE-HNDIT-FT-GAMPAHA-2026"
+    },
+    {
+      "id": "EV-HNDIT-GAMPAHA-DURATION",
+      "subject": "duration_months",
+      "status": "verified",
+      "source_title": "SLIATE Admission Guideline 2026 — p. 7",
+      "source_url": "https://apply.sliate.ac.lk/uploads/gazette/2026/guidline.pdf?20261017114452=",
+      "excerpt": "Research summary (paraphrased): HNDIT duration: two and a half years.",
+      "checked_date": "2026-10-17",
+      "applies_to": "LK-SLIATE-HNDIT-FT-GAMPAHA-2026"
+    },
+    {
+      "id": "EV-HNDIT-GAMPAHA-SELECTION",
+      "subject": "selection.requirements",
+      "status": "unreviewed",
+      "source_title": "SLIATE Admission Guideline 2026 — pp. 8–10",
+      "source_url": "https://apply.sliate.ac.lk/uploads/gazette/2026/guidline.pdf?20261017114452=",
+      "excerpt": "Research summary (paraphrased): Academic eligibility is not selection. Capacity-based marking applies; complete admission policies require review.",
+      "checked_date": "2026-10-17",
+      "applies_to": "LK-SLIATE-HNDIT-FT-GAMPAHA-2026"
+    },
+    {
+      "id": "EV-HNDIT-GAMPAHA-WINDOW",
+      "subject": "intake.application_window",
+      "status": "verified",
+      "source_title": "SLIATE 2026 application portal",
+      "source_url": "https://apply.sliate.ac.lk/",
+      "excerpt": "Research summary (paraphrased): 2026 call: A/L 2025 or earlier; application fee LKR 1,000; announced deadline 23 August 2026 has passed.",
+      "checked_date": "2026-10-17",
+      "applies_to": "LK-SLIATE-HNDIT-FT-GAMPAHA-2026"
+    },
+    {
+      "id": "EV-HNDIT-GAMPAHA-EXPENSES",
+      "subject": "cost_items.non_tuition",
+      "status": "unreviewed",
+      "source_title": "Collection gap — not an institutional source",
+      "source_url": null,
+      "excerpt": "Research summary (paraphrased): Travel, accommodation, meals, materials and other applicable charges remain unknown.",
+      "checked_date": "2026-10-17",
+      "applies_to": "LK-SLIATE-HNDIT-FT-GAMPAHA-2026"
+    },
+    {
+      "id": "EV-LK-T-HNDIT-GAMPAHA-UOM",
+      "subject": "transition.requirements",
+      "status": "unreviewed",
+      "source_title": "UoM BIT — HNDIT lateral-entry conditions",
+      "source_url": "https://bit.uom.lk/bituom/",
+      "excerpt": "Research summary (paraphrased): Full-time HNDIT lateral consideration: all modules in accepted 2014/2021 curriculum, six-month training, aptitude pass. Applicability to this 2026 cohort and future intake remains unconfirmed.",
+      "checked_date": "2026-10-17",
+      "applies_to": "LK-T-HNDIT-GAMPAHA-UOM"
+    },
+    {
+      "id": "EV-LATERAL-ROUTE",
+      "subject": "entry_rule.complete_conditions",
+      "status": "unreviewed",
+      "source_title": "UoM CODL — Entry Requirements",
+      "source_url": "https://bit.uom.lk/entry-requirements/",
+      "excerpt": "Research summary (paraphrased): HNDIT entry to Level 3 is described, with track-specific exemptions. Individual mapping and current curriculum need confirmation.",
+      "checked_date": "2026-10-17",
+      "applies_to": "LK-UOM-BIT-HNDIT-LATERAL-REVIEW"
+    },
+    {
+      "id": "EV-LATERAL-FEES",
+      "subject": "cost_items.lateral_fee",
+      "status": "unreviewed",
+      "source_title": "UoM BIT — lateral fees",
+      "source_url": "https://bit.uom.lk/bituom/",
+      "excerpt": "Research summary (paraphrased): HNDIT Level 3: LKR 120,000, plus residual modules and assessment charges. Complete route total and timetable unknown.",
+      "checked_date": "2026-10-17",
+      "applies_to": "LK-UOM-BIT-HNDIT-LATERAL-REVIEW"
+    },
+    {
+      "id": "EV-LATERAL-DURATION",
+      "subject": "duration_months",
+      "status": "unreviewed",
+      "source_title": "Collection gap — individualized duration",
+      "source_url": null,
+      "excerpt": "Research summary (paraphrased): Do not equate entry to Level 3 with a guaranteed 12-month completion; residual modules are unresolved.",
+      "checked_date": "2026-10-17",
+      "applies_to": "LK-UOM-BIT-HNDIT-LATERAL-REVIEW"
+    }
+  ],
+  "offerings": [
+    {
+      "id": "LK-UOM-BIT-REGULAR-2026-DEC",
+      "title": "Bachelor of Information Technology — regular local A/L entry",
+      "institution_id": "LK-INST-UOM",
+      "campus": "Independent distance study",
+      "district": null,
+      "delivery_mode": "remote",
+      "intake": "December 2026",
+      "award_level": "degree",
+      "duration_months": 36,
+      "is_entry": true,
+      "entry_rule": {
+        "op": "all",
+        "children": [
+          {
+            "op": "has_qual",
+            "value": "LK-Q-AL-3-PASSES-ONE-SITTING-AFTER-2000"
+          },
+          {
+            "op": "has_qual",
+            "value": "LK-Q-OL-MATH-C-OR-HIGHER"
+          }
+        ]
+      },
+      "cost_items": [
+        {
+          "id": "C-UOM-FIRST-SEMESTER",
+          "label": "Published first-semester course plus registration amount — intake confirmation pending",
+          "kind": "upfront",
+          "category": "tuition",
+          "amount": 50000,
+          "essential": true
+        },
+        {
+          "id": "C-UOM-PROGRAMME",
+          "label": "Remaining university payments — scheduled, not an upfront bill; see review notes",
+          "kind": "upfront",
+          "category": "tuition",
+          "amount": null,
+          "essential": true
+        },
+        {
+          "id": "C-UOM-PERSONAL",
+          "label": "Applicable personal study/travel expenses not yet collected",
+          "kind": "recurring",
+          "category": "other",
+          "amount": null,
+          "essential": true
+        }
+      ],
+      "awards": [
+        "LK-Q-UOM-BIT"
+      ],
+      "goals": [
+        "LK-GOAL-IT-DEGREE"
+      ],
+      "evidence_ids": [
+        "EV-UOM-INTAKE",
+        "EV-UOM-ENTRY",
+        "EV-UOM-DURATION",
+        "EV-UOM-MODE",
+        "EV-UOM-FEES",
+        "EV-UOM-ADDITIONAL"
+      ]
+    },
+    {
+      "id": "LK-SLIATE-HNDIT-FT-DEHIWALA-2026",
+      "title": "Higher National Diploma in Information Technology — full time",
+      "institution_id": "LK-INST-SLIATE",
+      "campus": "ATI Dehiwala",
+      "district": "Colombo",
+      "delivery_mode": "on_campus",
+      "intake": "2026 — published application deadline passed",
+      "award_level": "higher_diploma",
+      "duration_months": 30,
+      "is_entry": true,
+      "entry_rule": {
+        "op": "all",
+        "children": [
+          {
+            "op": "has_qual",
+            "value": "LK-Q-AL-3-PASSES-ONE-SITTING"
+          },
+          {
+            "op": "has_qual",
+            "value": "LK-Q-OL-MATH-PASS"
+          },
+          {
+            "op": "has_qual",
+            "value": "LK-Q-OL-ENGLISH-PASS"
+          }
+        ]
+      },
+      "cost_items": [
+        {
+          "id": "C-DEHIWALA-TUITION",
+          "label": "Full-time programme tuition",
+          "kind": "upfront",
+          "category": "tuition",
+          "amount": 0,
+          "essential": true
+        },
+        {
+          "id": "C-DEHIWALA-APPLICATION",
+          "label": "2026 application charge — historical; no repeat charge across ATI choices",
+          "kind": "upfront",
+          "category": "application",
+          "amount": 1000,
+          "essential": true
+        },
+        {
+          "id": "C-DEHIWALA-TRAVEL",
+          "label": "Monthly travel — student estimate required",
+          "kind": "recurring",
+          "category": "travel",
+          "amount": null,
+          "essential": true
+        },
+        {
+          "id": "C-DEHIWALA-OTHER",
+          "label": "Other essential expenses — scope and timing require review",
+          "kind": "upfront",
+          "category": "other",
+          "amount": null,
+          "essential": true
+        }
+      ],
+      "awards": [
+        "LK-Q-SLIATE-HNDIT-FT"
+      ],
+      "goals": [],
+      "evidence_ids": [
+        "EV-HNDIT-DEHIWALA-CAMPUS",
+        "EV-HNDIT-DEHIWALA-ENTRY",
+        "EV-HNDIT-DEHIWALA-TUITION",
+        "EV-HNDIT-DEHIWALA-DURATION",
+        "EV-HNDIT-DEHIWALA-SELECTION",
+        "EV-HNDIT-DEHIWALA-WINDOW",
+        "EV-HNDIT-DEHIWALA-EXPENSES"
+      ]
+    },
+    {
+      "id": "LK-SLIATE-HNDIT-FT-GAMPAHA-2026",
+      "title": "Higher National Diploma in Information Technology — full time",
+      "institution_id": "LK-INST-SLIATE",
+      "campus": "ATI Gampaha — Naiwala",
+      "district": "Gampaha",
+      "delivery_mode": "on_campus",
+      "intake": "2026 — published application deadline passed",
+      "award_level": "higher_diploma",
+      "duration_months": 30,
+      "is_entry": true,
+      "entry_rule": {
+        "op": "all",
+        "children": [
+          {
+            "op": "has_qual",
+            "value": "LK-Q-AL-3-PASSES-ONE-SITTING"
+          },
+          {
+            "op": "has_qual",
+            "value": "LK-Q-OL-MATH-PASS"
+          },
+          {
+            "op": "has_qual",
+            "value": "LK-Q-OL-ENGLISH-PASS"
+          }
+        ]
+      },
+      "cost_items": [
+        {
+          "id": "C-GAMPAHA-TUITION",
+          "label": "Full-time programme tuition",
+          "kind": "upfront",
+          "category": "tuition",
+          "amount": 0,
+          "essential": true
+        },
+        {
+          "id": "C-GAMPAHA-APPLICATION",
+          "label": "2026 application charge — historical; no repeat charge across ATI choices",
+          "kind": "upfront",
+          "category": "application",
+          "amount": 1000,
+          "essential": true
+        },
+        {
+          "id": "C-GAMPAHA-TRAVEL",
+          "label": "Monthly travel — student estimate required",
+          "kind": "recurring",
+          "category": "travel",
+          "amount": null,
+          "essential": true
+        },
+        {
+          "id": "C-GAMPAHA-OTHER",
+          "label": "Other essential expenses — scope and timing require review",
+          "kind": "upfront",
+          "category": "other",
+          "amount": null,
+          "essential": true
+        }
+      ],
+      "awards": [
+        "LK-Q-SLIATE-HNDIT-FT"
+      ],
+      "goals": [],
+      "evidence_ids": [
+        "EV-HNDIT-GAMPAHA-CAMPUS",
+        "EV-HNDIT-GAMPAHA-ENTRY",
+        "EV-HNDIT-GAMPAHA-TUITION",
+        "EV-HNDIT-GAMPAHA-DURATION",
+        "EV-HNDIT-GAMPAHA-SELECTION",
+        "EV-HNDIT-GAMPAHA-WINDOW",
+        "EV-HNDIT-GAMPAHA-EXPENSES"
+      ]
+    },
+    {
+      "id": "LK-UOM-BIT-HNDIT-LATERAL-REVIEW",
+      "title": "Bachelor of Information Technology — HNDIT lateral-entry route (review required)",
+      "institution_id": "LK-INST-UOM",
+      "campus": "Distance-study route; attendance requirements to confirm",
+      "district": null,
+      "delivery_mode": "remote",
+      "intake": null,
+      "award_level": "degree",
+      "duration_months": null,
+      "is_entry": true,
+      "entry_rule": null,
+      "cost_items": [
+        {
+          "id": "C-LATERAL-FIRST-SEMESTER",
+          "label": "Published first Level-3 semester amount only — residual modules excluded; confirm intake",
+          "kind": "upfront",
+          "category": "tuition",
+          "amount": 60000,
+          "essential": true
+        },
+        {
+          "id": "C-LATERAL-PAYMENTS",
+          "label": "Remaining lateral-route payments and residual-module costs — unknown",
+          "kind": "upfront",
+          "category": "tuition",
+          "amount": null,
+          "essential": true
+        },
+        {
+          "id": "C-LATERAL-TRAVEL",
+          "label": "Applicable study/assessment travel costs unknown",
+          "kind": "recurring",
+          "category": "travel",
+          "amount": null,
+          "essential": true
+        }
+      ],
+      "awards": [
+        "LK-Q-UOM-BIT"
+      ],
+      "goals": [
+        "LK-GOAL-IT-DEGREE"
+      ],
+      "evidence_ids": [
+        "EV-LATERAL-ROUTE",
+        "EV-LATERAL-FEES",
+        "EV-LATERAL-DURATION"
+      ]
+    }
+  ],
+  "transitions": [
+    {
+      "id": "LK-T-HNDIT-DEHIWALA-UOM",
+      "from": "LK-SLIATE-HNDIT-FT-DEHIWALA-2026",
+      "to": "LK-UOM-BIT-HNDIT-LATERAL-REVIEW",
+      "transition_type": "lateral_entry",
+      "requirements": null,
+      "evidence_claim_ids": [
+        "EV-LK-T-HNDIT-DEHIWALA-UOM"
+      ],
+      "status": "unreviewed",
+      "duration_delta_months": null,
+      "cost_delta": null,
+      "note": "Documented route family; full cohort-specific rule not compiled. Null requirements means UNKNOWN, not unconditional admission. Receiving curriculum, training, aptitude and future intake must be confirmed. No automatic exemption effect."
+    },
+    {
+      "id": "LK-T-HNDIT-GAMPAHA-UOM",
+      "from": "LK-SLIATE-HNDIT-FT-GAMPAHA-2026",
+      "to": "LK-UOM-BIT-HNDIT-LATERAL-REVIEW",
+      "transition_type": "lateral_entry",
+      "requirements": null,
+      "evidence_claim_ids": [
+        "EV-LK-T-HNDIT-GAMPAHA-UOM"
+      ],
+      "status": "unreviewed",
+      "duration_delta_months": null,
+      "cost_delta": null,
+      "note": "Documented route family; full cohort-specific rule not compiled. Null requirements means UNKNOWN, not unconditional admission. Receiving curriculum, training, aptitude and future intake must be confirmed. No automatic exemption effect."
+    }
+  ]
 }
