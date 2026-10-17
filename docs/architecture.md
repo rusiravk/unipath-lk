@@ -18,11 +18,11 @@ UniPath LK finds **multi-step education routes** for Sri Lankan post-A/L student
 | # | Criterion | What judges look for | What we build to hit it | Demo proof |
 |---|---|---|---|---|
 | 1 | **Depth of agentic behaviour** | Does the agent decide, or just show data? | LLM planner picks from 4 typed actions (`ask_student`, `search_alternatives`, `evaluate_candidates`, `finish`) based on observations. The Bridge walker uses the LLM to **rank and explain real catalogue routes**. Backtracking on dead ends. | Two different profiles trigger two different action sequences. An answer visibly changes the route. |
-| 2 | **Excellent use of Jac/Jaseci** | Nodes, walkers, edges, `by llm` used meaningfully, 80% Jac | Catalogue = nodes + typed edges (`Offers`, `Awards`, `Requires`, `ProgressesTo`, `SupportsGoal`). One walker instance per branch. Four lens walkers. `by llm()` for the planner. All logic in Jac; frontend in native Jac client where supported. | 60-second source walkthrough, then the live graph projection from real nodes. |
-| 3 | **Technical execution** | Live on Jac Hammer, no bugs | Modular monolith, one `jac.toml`, deterministic fallback if the LLM fails, 6 core tests, smoke flow run before demo. | Deployed URL works end to end, including with the API key removed (fallback). |
+| 2 | **Excellent use of Jac/Jaseci** | Nodes, walkers, edges, `by llm` used meaningfully, 80% Jac | Catalogue = nodes + typed edges (`Offers`, `Awards`, `ProgressesTo`, `SupportsGoal`, `SupportedBy`), all built by the loader. One walker instance per branch. Four lens walkers that `visit` nodes (section 4). `by llm()` for the planner. All logic in Jac; frontend in native Jac client where supported. | 60-second source walkthrough, then the live graph projection from real nodes. |
+| 3 | **Technical execution** | Live on Jac Hammer, no bugs | Modular monolith, one `jac.toml`, deterministic fallback if the LLM fails, 7 core tests, smoke flow run before demo. | Deployed URL works end to end, including with the API key removed (fallback). |
 | 4 | **Creativity and innovation** | Something not seen before | **Council of lenses on a live graph**, **whole-route validation with three-valued logic**, **cash-flow cost model** (the cheap route is not always the cheap route), **stress test deltas**. | The "direct degree fails on cash, 3-step route works" moment. |
 | 5 | **Impact and novelty** | Truly useful to people | Free, anonymous, no accounts. Shows costs, shortfalls, conditions, evidence links and next actions. Honest about uncertainty. Scales region by region by adding data only. | One real student problem solved start to finish. |
-| 6 | **Presentation and 2-3 min demo** | Clear story | Fixed 5-beat script (section 12). Demo banner and evidence labels make honesty visible. | Rehearsed twice; screen recording captured as a backup. |
+| 6 | **Presentation and 2-3 min demo** | Clear story | Fixed 6-beat script (section 12). Demo banner and evidence labels make honesty visible. | Rehearsed twice; screen recording captured as a backup. |
 
 ---
 
@@ -88,6 +88,8 @@ This keeps the PDF's best idea but fixes its flaws (shared mutable blackboards, 
 | **Gatekeeper** | Deterministic | Do entry requirements pass, fail or stay unknown? Is the evidence verified, unreviewed or fixture? | `pass / fail / unknown` + evidence IDs |
 | **Bridge** | LLM-assisted, validated | When the direct route is blocked, which **existing catalogue routes** best repair it, and why? | Ranked route proposals plus plain-language explanation |
 
+**Code moves to the data (Jac rule).** Lens and search walkers must genuinely traverse the graph: they `visit` nodes along typed edges and inspect each node through walker abilities, instead of looping over a list from `Root`. This is what the Jac/Jaseci criterion and the source walkthrough test. Use the exact walker/`visit` syntax from the installed guides (`jac guide jac-walker-patterns`), not syntax copied from other releases. If the M0.4 spike shows real traversal with per-branch state cannot be made to work, a coordinator-driven fallback is allowed **only** if it is recorded and disclosed in the README and demo.
+
 **Blackboard, done safely:** each lens emits `Finding` objects into a request-scoped list. The UI renders them as per-node notes ("Fiscal: needs 22,000 extra upfront. Gatekeeper: Diploma required first"). Nothing is written to shared nodes, so two users never mix.
 
 **Bridge rules:**
@@ -101,7 +103,9 @@ This keeps the PDF's best idea but fixes its flaws (shared mutable blackboards, 
 
 Jac **nodes**: `Institution`, `Qualification`, `CourseOffering`, `CareerGoal`, `EvidenceClaim`.
 Jac **objects**: `StudentProfile`, `RequirementExpr`, `CostItem`, `SearchState`, `CandidatePlan`, `Finding`, `Question`, `DecisionEvent`.
-Jac **edges**: `Offers`, `Awards`, `Requires`, `ProgressesTo`, `SupportsGoal`, `SupportedBy`.
+Jac **edges**: `Offers`, `Awards`, `ProgressesTo`, `SupportsGoal`, `SupportedBy`.
+
+Entry requirements are `RequirementExpr` objects stored on offerings and on `ProgressesTo` edges, so there is **no separate `Requires` edge**. Every declared node and edge type must be used: the loader builds `Institution -Offers-> CourseOffering`, `CourseOffering -Awards-> Qualification`, `CourseOffering -SupportsGoal-> CareerGoal`, `CourseOffering -SupportedBy-> EvidenceClaim`, and `ProgressesTo` between offerings. A type that nothing builds or reads is removed from this list. Search traverses education transitions (`Awards`, `ProgressesTo`, `SupportsGoal`), never evidence links.
 
 Key conventions:
 - IDs are stable application IDs, not native graph IDs.
@@ -143,7 +147,7 @@ Starting points from the PDF, **all unreviewed until a source is attached**:
 
 **Rules for adding a real record (about 10 minutes each):**
 1. Copy the exact official URL and the relevant excerpt into an `EvidenceSource`.
-2. Fill only the fields the source states. Everything else stays `null`.
+2. Fill only the fields the source states. Everything else stays unknown (`null` in the JSON).
 3. Express entry requirements as a `RequirementExpr` (`all` / `any` plus predicates).
 4. Mark the claim `verified` only if the source covers **that specific field, programme and intake**. Otherwise `unreviewed`.
 5. A `ProgressesTo` edge exists **only** if an official source documents the transition. If not, do not add the edge. (This replaces the PDF's invented "NVQ 6 exemption" bridge.)
@@ -244,6 +248,28 @@ Re-run the same engine with labelled changes: travel costs +40%, a 6-month delay
 **Fallback:** on missing key, timeout, malformed output or unknown IDs, switch to the deterministic question list. Report `planner_mode: live_ai | rules_fallback | mixed` and a `fallback_reason`. Never present fallback as AI reasoning.
 **Question choice:** deterministic utility (how many candidates the answer could change, blocker severity, effort). The LLM picks from that shortlist and cannot invent questions.
 
+### Decision policy (the rules fallback mirrors this)
+
+The live LLM chooses the next action from the allowlist given the observation. The deterministic fallback follows this table, so the two modes can be compared. Evaluating the direct routes is the coordinator's first step in every run.
+
+| Observation after the previous step | Next action |
+|---|---|
+| Direct route is `feasible_under_stated_assumptions` and no relevant field is missing | `finish` (no redundant search, no interruption) |
+| Direct route is blocked or unaffordable and no alternatives were searched yet | `search_alternatives(filters)` |
+| Alternatives exist, a relevant field is missing and not yet asked or skipped | `ask_student(field)` (run pauses for the answer) |
+| Alternatives were found and not yet evaluated | `evaluate_candidates(ids)` using issued IDs only |
+| Nothing new can change the result, or the budget is spent | `finish` |
+
+**Expected sequences for the three demo profiles (fixture catalogue, fallback mode).** These are expectations to test the fallback against. For live AI, record the sequence actually observed; do not assume it matches.
+
+| Profile | Expected actions |
+|---|---|
+| Low savings (2,000), relocation unknown | evaluate direct → `search_alternatives` → `ask_student(can_relocate)` (pauses) |
+| Same profile after the student answers "yes" | evaluate direct → `search_alternatives` → `evaluate_candidates(alternative IDs, including Bridge-ranked repairs)` → `finish` |
+| High savings (24,000), direct route clean | evaluate direct → `finish` |
+
+Skipping the search when the direct route is clean means a cheaper multi-step route is not shown in that case. This is a deliberate demo-visible trade-off; change the first row of the table if that is not wanted.
+
 **Where the LLM visibly matters (for criterion 1):**
 1. Choosing the next action.
 2. Bridge lens ranking of repair routes.
@@ -262,6 +288,7 @@ Re-run the same engine with labelled changes: travel costs +40%, a 6-month delay
 | `run_stress_test` | Same profile plus a named scenario → deltas |
 | `health` | Readiness (fails if the catalogue import failed) |
 
+- All six operations are required for release. Delivery is staged: five are built with the core flow (M6) and `run_stress_test` is built in M9. Cutting it is a disclosed scope cut, not a silent omission.
 - The server recomputes everything and ignores client-submitted results.
 - The client discards any response whose `profile_revision` is older than the latest.
 - A zero-feasible-route result is a valid `ready` business result with reasons, not an error.
