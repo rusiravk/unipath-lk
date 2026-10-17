@@ -466,11 +466,29 @@ test "M6 zero feasible routes is a valid ready result" {
     assert any(["No route" in w for w in resp.warnings]);
 }
 
-test "M6 real catalogue is empty and honest" {
+test "M8 real catalogue loads research data with honest banner and valid graph" {
     assert ensure_catalogue("real") == "";
     view = load_view("real");
-    assert len(view.offerings) == 0;
-    assert "no records have been reviewed" in view.banner;
+    assert len(view.offerings) == 4;
+    assert len(view.institutions) == 2;
+    assert len(view.transitions) == 2;
+    assert len(view.claims) == 25;
+    assert "Real programme research" in view.banner;
+    assert "partially reviewed" in view.banner;
+
+    real_prof = StudentProfile(
+        goal_id="LK-GOAL-IT-DEGREE",
+        qualifications=["LK-Q-AL-3-PASSES-ONE-SITTING-AFTER-2000", "LK-Q-OL-MATH-C-OR-HIGHER"],
+        inventory_complete=True,
+        savings=100000,
+        monthly_contribution=10000,
+        district="Colombo",
+        can_relocate=True,
+        catalogue_mode="real"
+    );
+    resp = plan_pathways(profile_to_dict(real_prof), "real-session-1", 1);
+    assert resp.run_status == "ready";
+    assert len(resp.candidates) > 0;
 }
 
 # ----- M7: planner, fallback, Bridge --------------------------------------

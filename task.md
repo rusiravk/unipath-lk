@@ -270,20 +270,20 @@ All three deterministic lens walkers traverse the graph (`visit` offerings) and 
 
 ## 8. M8: Small real IT catalogue
 
-- [ ] **M8 coverage recorded**
+- [x] **M8 coverage recorded**
 
 Scope boundary: **at most two meaningful real routes**. Reduce coverage before delaying the core flow.
 
-- [ ] **M8.1 Pick candidates.** Start from official sources for SLIATE HNDIT, UCSC BIT, UoM BIT, UNIVOTEC B.Tech or NAITA/VTA IT offerings, as relevant. Names in the architecture are leads, not verified facts.
-- [ ] **M8.2 Capture evidence.** For each claim: exact official URL, excerpt, checked date, programme/intake applicability, status.
-- [ ] **M8.3 Populate only supported facts.** Missing fees and timings stay `null`. Never copy fees from the old PDFs.
-- [ ] **M8.4 Encode requirements.** Express each entry rule as a typed expression and record how it corresponds to the source text.
-- [ ] **M8.5 Edges.** Create a `ProgressesTo` edge only for an officially documented transition. An unsupported possibility is an advisor question, never a route edge.
-- [ ] **M8.6 Keep distinctions.** UCSC and UoM BIT stay separate offerings. Campus, mode and intake variants stay distinct. SLQF and NVQ claims stay separate.
-- [ ] **M8.7 Validate import.** Load `data/real/catalogue.json` through the same loader. Inspect at least one accepted, blocked or unknown case.
-- [ ] **M8.8 Record coverage.** Number of routes, claims, and verified vs unreviewed vs unknown. If thin, run a fixture-led demo with the real catalogue as a separate, partially reviewed view.
+- [x] **M8.1 Pick candidates.** Start from official sources for SLIATE HNDIT, UCSC BIT, UoM BIT, UNIVOTEC B.Tech or NAITA/VTA IT offerings, as relevant. Names in the architecture are leads, not verified facts.
+- [x] **M8.2 Capture evidence.** For each claim: exact official URL, excerpt, checked date, programme/intake applicability, status.
+- [x] **M8.3 Populate only supported facts.** Missing fees and timings stay `null`. Never copy fees from the old PDFs.
+- [x] **M8.4 Encode requirements.** Express each entry rule as a typed expression and record how it corresponds to the source text.
+- [x] **M8.5 Edges.** Create a `ProgressesTo` edge only for an officially documented transition. An unsupported possibility is an advisor question, never a route edge.
+- [x] **M8.6 Keep distinctions.** UCSC and UoM BIT stay separate offerings. Campus, mode and intake variants stay distinct. SLQF and NVQ claims stay separate.
+- [x] **M8.7 Validate import.** Load `data/real/catalogue.json` through the same loader. Inspect at least one accepted, blocked or unknown case.
+- [x] **M8.8 Record coverage.** Number of routes, claims, and verified vs unreviewed vs unknown. If thin, run a fixture-led demo with the real catalogue as a separate, partially reviewed view.
 
-**Gate:** every real record has a traceable claim-level status; gaps are explicit.
+**Gate:** every real record has a traceable claim-level status; gaps are explicit. (Coverage: 2 institutions, 4 offerings, 2 transitions, 25 evidence claims, 7 qualifications, 1 career goal).
 
 ---
 

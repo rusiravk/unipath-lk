@@ -2,7 +2,7 @@
 
 UniPath LK is a free, anonymous pathway-planning tool for Sri Lankan post-A/L students. It searches a typed graph of programmes for **direct and multi-step routes** to a goal, checks every route against the student's stated situation (entry rules, cash flow, evidence), asks at most one relevant clarifying question at a time, and shows what is feasible, conditional, unconfirmed or blocked. It is **not** a source of guaranteed admissions, exemptions, jobs or financial outcomes.
 
-> **Data status:** the only catalogue with records is a **fictional demonstration fixture** (`data/demo/catalogue.json`), shown with the banner *Demonstration data — not verified admission guidance*. The real catalogue (`data/real/catalogue.json`) is intentionally **empty**: no real institution, fee or transition has been source-reviewed yet (task M8 is deferred).
+> **Data status:** The default mode uses a **fictional demonstration fixture** (`data/demo/catalogue.json`), shown with the banner *Demonstration data — not verified admission guidance*. The real catalogue (`data/real/catalogue.json`) contains an initial reviewed research dataset covering University of Moratuwa (UoM BIT) and SLIATE (HNDIT at Dehiwala and Gampaha, with lateral transfer consideration), clearly labeled *Real programme research — partially reviewed; eligibility, intake and costs require confirmation*.
 
 ## What is implemented
 
@@ -60,7 +60,7 @@ Set `OPENAI_API_KEY` (and optionally `LLM_MODEL`) in the server environment to e
 
 ## Verification and limitations
 
-See [docs/handoff.md](docs/handoff.md) and the progress log in [task.md](task.md) for exactly which checks ran and which are still open. In short: backend tests pass locally; the live-provider test, hosted deployment, real-data review (M8) and the 80% Jac measurement are **not done**.
+See [docs/handoff.md](docs/handoff.md) and the progress log in [task.md](task.md) for exactly which checks ran and which are still open. In short: all 41 backend tests pass locally (including both fixture and real research catalogue verification); the live-provider test, hosted deployment, and the 80% Jac measurement are **not done**.
 
 ## Documentation
 
