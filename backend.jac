@@ -2059,7 +2059,15 @@ def merge_search(rs: RunState, view: CatalogueView, profile: StudentProfile, out
         }
     }
     for ev in outcome.events {
-        event(rs.events, ev.kind, ev.actor, ev.message, ev.node_id);
+        seen_before = False;
+        for old_ev in rs.events {
+            if old_ev.kind == ev.kind and old_ev.message == ev.message {
+                seen_before = True;
+            }
+        }
+        if not seen_before {
+            event(rs.events, ev.kind, ev.actor, ev.message, ev.node_id);
+        }
     }
     rs.expanded += outcome.expanded;
     if not direct_only and outcome.truncated {
@@ -2559,7 +2567,7 @@ def assemble_response(view: CatalogueView, profile: StudentProfile, rs: RunState
         r.warnings.append("No route reaches this goal under the stated inputs. See the excluded options for reasons.");
     }
     if len(plans) > len(shown) {
-        r.warnings.append(f"Showing {len(shown)} of {len(plans)} routes found; one slot is kept for the best direct route so the comparison stays visible.");
+        r.warnings.append(f"Showing {len(shown)} of {len(plans)} routes found. The others are listed under excluded options with their reasons.");
     }
     r.metrics = {
         "elapsed_ms": int((time.time() - rs.started) * 1000), "expanded_states": rs.expanded, "provider_attempts": rs.attempts,

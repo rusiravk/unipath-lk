@@ -4,6 +4,10 @@ def:pub ActivityLog(resp: PlanResponse | None) -> JsxElement {
     if not resp {
         return <div />;
     }
+    seq_text = "";
+    for a in resp.action_sequence {
+        seq_text = (seq_text + " → " + a) if seq_text != "" else a;
+    }
     return <details className="rounded-xl border border-border bg-card p-3" open={True}>
         <summary className="cursor-pointer text-sm font-semibold">{"Activity log"}</summary>
         <div className="mt-2 flex flex-col gap-2 text-xs">
@@ -16,7 +20,7 @@ def:pub ActivityLog(resp: PlanResponse | None) -> JsxElement {
             </p>
             <p>
                 <span className="font-medium">{"Actions taken: "}</span>
-                <span>{" → ".join(resp.action_sequence)}</span>
+                <span>{seq_text}</span>
             </p>
             <ol className="flex flex-col gap-1">
                 {for ev in resp.decision_events {

@@ -92,7 +92,9 @@ def:pub Planner() -> JsxElement {
         skipped = [];
     }
 
-    def build_profile() -> dict[str, any] {
+    def build_profile(over: dict[str, any]) -> dict[str, any] {
+        # `over` carries values that were just answered: React state set in the same handler is
+        # not visible yet, so the answer must be passed explicitly.
         sv_val: any = None;
         if all_digits(savings) {
             sv_val = int(savings);
@@ -115,21 +117,22 @@ def:pub Planner() -> JsxElement {
         if study_mode != "" {
             sm = study_mode;
         }
-        return {
+        base: dict[str, any] = {
             "goal_id": goal_id, "qualifications": quals, "not_held": not_held, "inventory_complete": inventory_complete,
             "savings": sv_val, "monthly_contribution": co_val, "district": dist, "can_relocate": rel,
             "study_mode": sm, "skipped_fields": skipped, "catalogue_mode": mode
         };
+        return {**base, **over};
     }
 
-    async def run_plan() -> None {
+    async def run_plan(over: dict[str, any]) -> None {
         rev = rev_box["latest"] + 1;
         rev_box["latest"] = rev;
         loading = True;
         error_text = "";
         stale = False;
         try {
-            r = await plan_pathways(build_profile(), conversation_id(), rev, "");
+            r = await plan_pathways(build_profile(over), conversation_id(), rev, "");
             if r.profile_revision != rev_box["latest"] {
                 return;
             }
@@ -151,7 +154,7 @@ def:pub Planner() -> JsxElement {
     async def run_stress(name: str) -> None {
         stress_loading = True;
         try {
-            s = await run_stress_test(build_profile(), name, conversation_id(), rev_box["latest"]);
+            s = await run_stress_test(build_profile({}), name, conversation_id(), rev_box["latest"]);
             stress = s;
         } except Exception {
             error_text = "The stress test failed. Please try again.";
@@ -212,43 +215,53 @@ def:pub Planner() -> JsxElement {
     }
 
     async def on_answer(data_field: str, value: str) -> None {
+        over: dict[str, any] = {};
         if data_field == "can_relocate" {
             relocate = "yes" if value == "yes" else "no";
+            over = {"can_relocate": value == "yes"};
         } elif data_field == "savings" {
             savings = value;
+            if all_digits(value) {
+                over = {"savings": int(value)};
+            }
         } elif data_field == "monthly_contribution" {
             contribution = value;
+            if all_digits(value) {
+                over = {"monthly_contribution": int(value)};
+            }
         } elif data_field == "study_mode" {
             study_mode = value;
+            over = {"study_mode": value};
         } elif data_field.startswith("qualification:") {
             qid = data_field[len("qualification:"):];
             if value == "yes" {
                 quals = quals + [qid];
+                over = {"qualifications": quals + [qid]};
             } else {
                 not_held = not_held + [qid];
+                over = {"not_held": not_held + [qid]};
             }
         }
-        await run_plan();
+        await run_plan(over);
     }
 
     async def on_skip(data_field: str) -> None {
-        skipped = skipped + [data_field];
-        await run_plan();
+        new_skipped = skipped + [data_field];
+        skipped = new_skipped;
+        await run_plan({"skipped_fields": new_skipped});
     }
 
     def on_select(id: str) { selected = id; }
     def on_close_evidence() { evidence = None; }
-    def on_submit() { run_plan(); }
+    def on_submit() { run_plan({}); }
 
     pending: Question | None = None;
     if resp is not None and not stale {
         pending = resp.pending_question;
     }
     banner = "";
-    if info and mode == "demo" {
-        banner = info.banner;
-    } elif mode == "real" {
-        banner = "Real catalogue: no records have been reviewed yet, so no routes can be shown from it.";
+    if proj is not None {
+        banner = proj.banner;
     }
     planner_chip = "";
     if resp {

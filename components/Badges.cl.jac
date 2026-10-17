@@ -60,11 +60,36 @@ def:pub status_class(s: str) -> str {
     return "bg-muted text-muted-foreground border-border";
 }
 
+def:pub group_digits(n: int) -> str {
+    # The client runtime ignores format specs such as ",", so group thousands by hand.
+    neg = n < 0;
+    digits = str(-n if neg else n);
+    out = "";
+    count = 0;
+    i = len(digits) - 1;
+    while i >= 0 {
+        out = digits[i] + out;
+        count += 1;
+        if count % 3 == 0 and i > 0 {
+            out = "," + out;
+        }
+        i -= 1;
+    }
+    return ("-" + out) if neg else out;
+}
+
+def:pub signed(n: int) -> str {
+    if n > 0 {
+        return "+" + group_digits(n);
+    }
+    return group_digits(n);
+}
+
 def:pub lkr(n: int | None) -> str {
     if n is None {
         return "unknown";
     }
-    return f"LKR {n:,}";
+    return "LKR " + group_digits(n);
 }
 
 def:pub StatusBadge(status: str) -> JsxElement {

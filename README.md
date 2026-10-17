@@ -2,7 +2,7 @@
 
 UniPath LK is a free, anonymous pathway-planning tool for Sri Lankan post-A/L students. It searches a typed graph of programmes for **direct and multi-step routes** to a goal, checks every route against the student's stated situation (entry rules, cash flow, evidence), asks at most one relevant clarifying question at a time, and shows what is feasible, conditional, unconfirmed or blocked. It is **not** a source of guaranteed admissions, exemptions, jobs or financial outcomes.
 
-> **Data status:** the only catalogue with records is a **fictional demonstration fixture** (`data/demo/catalogue.json`), shown with the banner *Demonstration data — not verified admission guidance*. The real catalogue (`data/real/catalogue.json`) is intentionally **empty**: no real institution, fee or transition has been source-reviewed yet (task M8 is deferred).
+> **Data status:** the only catalogue with records is a **fictional demonstration fixture** (`data/demo/catalogue.json`), shown with the banner *Demonstration data — not verified admission guidance*. The real catalogue (`data/real/catalogue.json`) holds **research data supplied by the team, not verified by this build**: its own notes say it is partially reviewed, has unknown (null) costs and unreviewed claims, and must be read with the data-review notes before anyone relies on it. It loads through the same validated loader and is never mixed with the demo catalogue, but I did not check its claims against sources (task M8 review is still open).
 
 ## What is implemented
 
@@ -42,15 +42,15 @@ The commands below were run in this repository with **Jac 0.16.7** (the newest r
 pip install jaclang byllm jac-client jac-super   # in a virtual environment
 jac install            # npm dependencies via Bun (slow on first run)
 jac check backend.jac  # type check
-jac test backend.jac   # 41 tests, no API key needed
-jac start main.jac --port 8000
+jac test backend.jac   # 42 tests, no API key needed
+jac start local_entry.jac --port 8000   # Jac 0.16.x; on JacHammer (0.34.x) the entry is main.jac
 ```
 
 Set `OPENAI_API_KEY` (and optionally `LLM_MODEL`) in the server environment to enable the live planner. Without a key the planner runs the deterministic decision table and reports `planner_mode: rules_fallback`, `fallback_reason: no_api_key`. Never put keys in source or the browser.
 
 ## Runtime findings (M0)
 
-- **Versions.** Local checks used Jac 0.16.7 (newest on PyPI). JacHammer reports 0.34.23. `main.jac` keeps the Hammer template shape and cannot be loaded by 0.16.7 ("relative import with no known parent package"), so `local_entry.jac` is a 0.16-compatible entry that serves the same backend and client. Run it with `jac start local_entry.jac --port 8000`. The Hammer path (`main.jac`) is **unverified here**.
+- **Versions.** Local checks used Jac 0.16.7 (newest on PyPI). JacHammer reports 0.34.23. `main.jac` keeps the Hammer template shape and cannot be loaded by 0.16.7 ("relative import with no known parent package"), so `local_entry.jac` is a 0.16-compatible entry that serves the same backend and client. Run it with `jac start local_entry.jac --port 8000`. The Hammer path (`main.jac`) is **unverified here**. Jac 0.16 reads Tailwind settings from `[plugins.client.vite]`, not the template's `[client.vite]`; for a styled local run you must add that section temporarily (copy the two keys from `[client.vite]`) and not commit it.
 - **Walkers.** Spawning a child walker with `nxt spawn child` inside a walker ability works; each child receives copied `list`/`dict` state, and sibling branches do not affect each other (tests T08, B01).
 - **Endpoints.** `def:pub` functions are served at `POST /function/<name>`. Raw REST delivers `obj` parameters as plain dicts, so `plan_pathways` and `run_stress_test` take a plain `profile` object and validate it field by field.
 - **Startup initialisation.** Anonymous callers share the guest root, so the catalogue is loaded lazily on first use (`ensure_catalogue`) and reused while its content hash is unchanged. Re-import is idempotent.

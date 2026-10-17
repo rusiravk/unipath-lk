@@ -466,11 +466,39 @@ test "M6 zero feasible routes is a valid ready result" {
     assert any(["No route" in w for w in resp.warnings]);
 }
 
-test "M6 real catalogue is empty and honest" {
+test "M8 the real research catalogue imports through the same loader and never claims affordability from unknown costs" {
     assert ensure_catalogue("real") == "";
     view = load_view("real");
-    assert len(view.offerings) == 0;
-    assert "no records have been reviewed" in view.banner;
+    assert len(view.offerings) >= 1;
+    assert "LK-GOAL-IT-DEGREE" in view.goals;
+    assert len(view.claims) > 0;
+    # a student who meets the academic rules still gets no feasible route while essential costs are unknown
+    p = StudentProfile(
+        goal_id="LK-GOAL-IT-DEGREE", inventory_complete=True, savings=1000000, monthly_contribution=100000, catalogue_mode="real",
+        qualifications=["LK-Q-AL-3-PASSES-ONE-SITTING", "LK-Q-AL-3-PASSES-ONE-SITTING-AFTER-2000", "LK-Q-OL-MATH-PASS", "LK-Q-OL-MATH-C-OR-HIGHER", "LK-Q-OL-ENGLISH-PASS"]
+    );
+    resp = do_plan(p, "c", 1);
+    assert resp.run_status == "ready";
+    assert resp.catalogue_mode == "real";
+    for c in resp.candidates {
+        assert c.status != "feasible_under_stated_assumptions";
+    }
+    # demo and real data are never mixed in one result set
+    for c in resp.candidates {
+        for s in c.steps {
+            assert not s.offering_id.startswith("DEMO-");
+        }
+    }
+}
+
+test "M8 demo plans never contain real offerings" {
+    _ = prepare();
+    resp = do_plan(demo_profile(24000, True), "c", 1);
+    for c in resp.candidates {
+        for s in c.steps {
+            assert s.offering_id.startswith("DEMO-");
+        }
+    }
 }
 
 # ----- M7: planner, fallback, Bridge --------------------------------------

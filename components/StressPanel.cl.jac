@@ -1,6 +1,6 @@
 sv import from ..backend { StressResponse }
 
-import from .Badges { status_label }
+import from .Badges { status_label, signed }
 
 def:pub StressPanel(
     stress: StressResponse | None,
@@ -33,9 +33,9 @@ def:pub StressPanel(
                         <p className="font-medium">{d.title}</p>
                         <p>{"Status: " + status_label(d.baseline_status) + " → " + status_label(d.scenario_status)}</p>
                         <p>
-                            {"Cost change: " + (f"{d.cost_delta:+,} LKR" if d.cost_delta is not None else "unknown")}
-                            {" · Shortfall change: " + (f"{d.shortfall_delta:+,} LKR" if d.shortfall_delta is not None else "unknown")}
-                            {" · Duration change: " + (f"{d.duration_delta:+} month(s)" if d.duration_delta is not None else "unknown")}
+                            {"Cost change: " + (signed(d.cost_delta) + " LKR" if d.cost_delta is not None else "unknown")}
+                            {" · Shortfall change: " + (signed(d.shortfall_delta) + " LKR" if d.shortfall_delta is not None else "unknown")}
+                            {" · Duration change: " + (signed(d.duration_delta) + " month(s)" if d.duration_delta is not None else "unknown")}
                         </p>
                         {if d.note != "" {
                             <p className="text-muted-foreground">{d.note}</p>

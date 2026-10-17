@@ -66,7 +66,7 @@ def:pub ProfileForm(
             <label className={label} htmlFor="mode">{"Catalogue"}</label>
             <select id="mode" className={field} value={mode} onChange={h_mode}>
                 <option value="demo">{"Demonstration (fictional)"}</option>
-                <option value="real">{"Real (no reviewed records yet)"}</option>
+                <option value="real">{"Real (research data, partly reviewed)"}</option>
             </select>
         </div>
         <div>

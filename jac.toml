@@ -94,8 +94,3 @@ description = 'Jac IDE snapshot for unipath-lk'
 
 [jachammer]
 project_id = "prj_752858aa50aa458d91a32fdd4190cab8"
-
-# TEMPORARY (local 0.16 visual check only; reverted afterwards)
-[plugins.client.vite]
-plugins = ["tailwindcss()"]
-lib_imports = ["import tailwindcss from '@tailwindcss/vite'"]

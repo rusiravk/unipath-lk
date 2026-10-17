@@ -12,6 +12,16 @@ def result_mark(r: str) -> str {
     return "•";
 }
 
+def lens_count(items: list[Finding], ln: str) -> int {
+    n = 0;
+    for f in items {
+        if f.lens == ln {
+            n += 1;
+        }
+    }
+    return n;
+}
+
 def:pub NodeDetails(
     proj: Projection | None,
     resp: PlanResponse | None,
@@ -65,6 +75,9 @@ def:pub NodeDetails(
         {for ln in LENSES {
             <div key={ln}>
                 <p className="text-xs font-semibold">{ln + " lens"}</p>
+                {if lens_count(items, ln) == 0 {
+                    <p className="text-xs text-muted-foreground">{"Not applicable to this selection."}</p>
+                }}
                 <ul className="flex flex-col gap-0.5 text-xs">
                     {for (i, f) in enumerate(items) {
                         if f.lens == ln {

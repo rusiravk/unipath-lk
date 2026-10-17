@@ -217,7 +217,7 @@ All three deterministic lens walkers traverse the graph (`visit` offerings) and 
 
 ### M6: API and minimal UI
 
-- [ ] **M6 accepted**
+- [x] **M6 accepted**
 
 - [x] **M6.1 Operations.** Implement `get_app_info`, `get_catalogue_projection`, `plan_pathways`, `get_evidence`, `health` using the template's real mechanism. The sixth operation, `run_stress_test`, is staged to M9.8; all six are required for release unless the stress cut is recorded. Document the actual names and routes in `README.md`.
   *Verify:* each operation responds.
@@ -230,9 +230,9 @@ All three deterministic lens walkers traverse the graph (`visit` offerings) and 
 - [x] **M6.5 Projection endpoint.** Whitelisted public IDs and edges only.
   *Verify:* no unrestricted node access.
 - [x] **M6.6 Readiness.** `health` fails if catalogue import failed. A missing AI key is healthy and advertises fallback.
-- [ ] **M6.7 Minimal UI.** Plain form and result list, enough to exercise the whole fallback flow. No graph styling yet. Handle loading, invalid-input, no-path and retryable-error states; preserve input on error.
+- [x] **M6.7 Minimal UI.** Plain form and result list, enough to exercise the whole fallback flow. No graph styling yet. Handle loading, invalid-input, no-path and retryable-error states; preserve input on error.
   *Verify:* manual run of profile → question → answer → revised result with no AI key.
-- [ ] **M6.8 Revision handling.** Browser increments `profile_revision`, marks current cards stale, and discards any response older than the latest.
+- [x] **M6.8 Revision handling.** Browser increments `profile_revision`, marks current cards stale, and discards any response older than the latest.
   *Verify:* U01 passes.
 - [x] **M6.9 Isolation.** Two anonymous requests share no profile or lens state.
   *Verify:* P01 passes.
@@ -291,19 +291,19 @@ Scope boundary: **at most two meaningful real routes**. Reduce coverage before d
 
 - [ ] **M9 accepted**
 
-- [ ] **M9.1 Profile form.** Responsive: goal, qualifications, savings, monthly contribution, relocation, study mode. Pending question card.
-- [ ] **M9.2 Graph rendering.** Render nodes and edges from the backend projection only, including alternatives and excluded branches.
+- [x] **M9.1 Profile form.** Responsive: goal, qualifications, savings, monthly contribution, relocation, study mode. Pending question card.
+- [x] **M9.2 Graph rendering.** Render nodes and edges from the backend projection only, including alternatives and excluded branches.
   *Verify:* every drawn node and edge exists in the projection.
 - [ ] **M9.3 Status styling.** Red / amber / green with text or icons as well. Evidence styling is separate: fixture badge and DEMO banner must not hide blocked or conditional status.
-- [ ] **M9.4 Node and edge details.** Click shows the rule, route context, four lens findings and evidence. Show "not applicable" when a lens has no finding.
-- [ ] **M9.5 Route cards.** Up to three: steps, cost breakdown (known / estimated / unknown), duration, assumptions, conditions, evidence links, last-checked date, next actions. Support fewer or zero.
-- [ ] **M9.6 Activity and mode.** Show actual decision events, backtracking events, planner mode and fallback reason. Update highlights on each revised result.
-- [ ] **M9.7 Stale and error handling.** Discard stale revisions; preserve input on errors. The UI formats backend values and never computes eligibility or totals.
+- [x] **M9.4 Node and edge details.** Click shows the rule, route context, four lens findings and evidence. Show "not applicable" when a lens has no finding.
+- [x] **M9.5 Route cards.** Up to three: steps, cost breakdown (known / estimated / unknown), duration, assumptions, conditions, evidence links, last-checked date, next actions. Support fewer or zero.
+- [x] **M9.6 Activity and mode.** Show actual decision events, backtracking events, planner mode and fallback reason. Update highlights on each revised result.
+- [x] **M9.7 Stale and error handling.** Discard stale revisions; preserve input on errors. The UI formats backend values and never computes eligibility or totals.
 - [x] **M9.8 `run_stress_test` operation.** Same deterministic engine, a *copy* of the profile and scenario, the same catalogue snapshot. The baseline is never mutated.
   *Verify:* S01: only scenario inputs change.
 - [x] **M9.9 Travel +40%.** Modify explicit travel cost items only. Unknown travel stays unknown; no travel gives a disclosed zero delta. Use a separate labelled stress fixture containing a travel item, with deltas computed by hand in the test (do not alter the T05 numbers).
 - [x] **M9.10 Six-month delay.** Document which costs and contributions continue during the gap and show those assumptions. Do not infer intake availability, inflation or new fees.
-- [ ] **M9.11 Deltas display.** Absolute cost, shortfall and duration deltas; "unknown" where inputs are incomplete. No survival or probability percentage.
+- [x] **M9.11 Deltas display.** Absolute cost, shortfall and duration deltas; "unknown" where inputs are incomplete. No survival or probability percentage.
 - [ ] **M9.12 Smoke checks.** Revision and stale-response checks, stress recalculation, and a recorded backup of the working flow before deployment work starts.
 - [ ] **M9.13 Commit.** Freeze new features after this; deployment follows.
 
@@ -398,20 +398,30 @@ All seven core tests plus targeted extras. Report skipped checks and reasons.
 ## 15. Progress log and handoff
 
 ```text
-Current milestone / task:
-Repository / integration branch:
-Latest working commit:
-Runtime and tested commands:
-Hammer preview / hosted URL:
-Catalogue mode / version:
-Real-data coverage so far:
-Tests run / live-provider check:
-Blocker:
-Next action:
+Current milestone / task: M0-M6 and M9 (except M9.3 visual check, M9.12 recording) done locally; M7 partial (no live provider); M8 data supplied by the team, not source-checked here; M10/M11 not started
+Repository / integration branch: rusiravk/unipath-lk, branch add-test-md (not merged to main)
+Latest working commit: see git log (this work is committed on add-test-md)
+Runtime and tested commands: Jac 0.16.7 locally (JacHammer reports 0.34.23, so Hammer behaviour is UNVERIFIED).
+  jac check backend.jac | jac test backend.jac (42 tests pass, no key needed) | jac start local_entry.jac --port 8000
+  main.jac keeps the 0.34 Hammer template shape and could not be loaded by 0.16.7; local_entry.jac is the 0.16 equivalent.
+  Local visual runs needed a temporary [plugins.client.vite] Tailwind block in jac.toml (0.16 schema); it was removed afterwards.
+Hammer preview / hosted URL: none
+Catalogue mode / version: demo = demo-1 (fictional); real = real-research-2026-10-17-v1 (supplied by the team)
+Real-data coverage so far: file loads through the validated loader; claims NOT re-checked against sources here
+Tests run / live-provider check: 42 backend tests pass; the UI flow was exercised in the built-in browser (profile -> relocation question -> answer -> revised result, stress test, stale-response guard, node details and evidence). Live-provider check NOT run (no key). Colours were not visually inspected (browser pane was hidden), only text/icons and DOM.
+Blocker: no AI key (M0.5, M7.1, M7.11, L01 live), no Hammer access (M10), no recording tools (M9.12 backup, M11)
+Next action: run jac check/test and the flow on JacHammer 0.34.23; review the real catalogue claims; live-provider check; deploy
 ```
 
 | Task ID | Commit | Observed check | Blocker or cut | Next |
 |---|---|---|---|---|
-| | | | | |
+| M0.4, M0.6, M0.7 | add-test-md | walker spike (tests T08/B01), REST call to `/function/*`, lazy catalogue load | none | repeat on 0.34.23 |
+| M0.5 | n/a | typed `by llm` functions compile; not called against a provider | no credentials | run L01 with a key |
+| M1 to M5 | add-test-md | 42 tests pass (`jac test backend.jac`) | none | none |
+| M6 | add-test-md | six operations over HTTP; no-key flow in browser | none | none |
+| M7 | add-test-md | fallback, guards, budget, Bridge validation via stubs | live provider not run | M7.1, M7.11 with a key |
+| M8 | team commit | loader + two isolation tests | claims unreviewed by this build | source review per docs |
+| M9 | add-test-md | UI flow, stress deltas, stale guard in browser | M9.3 colours, M9.12 backup recording | visual pass, record |
+| M10, M11 | none | not started | no hosting access | deploy, rehearse |
 
 **Next coding session:** read `AGENTS.md`, `docs/architecture.md` and this file. Inspect the repository. Complete the earliest unfinished task, run its *Verify* step, update the ticks and this log, then continue. Do not reintroduce roadmap features or unverified data from older documents.
