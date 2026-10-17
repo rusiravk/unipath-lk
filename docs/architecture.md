@@ -254,7 +254,7 @@ The live LLM chooses the next action from the allowlist given the observation. T
 
 | Observation after the previous step | Next action |
 |---|---|
-| Direct route is `feasible_under_stated_assumptions` and no relevant field is missing | `finish` (no redundant search, no interruption) |
+| Every direct route is `feasible_under_stated_assumptions` and no relevant field is missing | `finish` (no redundant search, no interruption) |
 | Direct route is blocked or unaffordable and no alternatives were searched yet | `search_alternatives(filters)` |
 | Alternatives exist, a relevant field is missing and not yet asked or skipped | `ask_student(field)` (run pauses for the answer) |
 | Alternatives were found and not yet evaluated | `evaluate_candidates(ids)` using issued IDs only |
@@ -268,7 +268,7 @@ The live LLM chooses the next action from the allowlist given the observation. T
 | Same profile after the student answers "yes" | evaluate direct → `search_alternatives` → `evaluate_candidates(alternative IDs, including Bridge-ranked repairs)` → `finish` |
 | High savings (24,000), direct route clean | evaluate direct → `finish` |
 
-Skipping the search when the direct route is clean means a cheaper multi-step route is not shown in that case. This is a deliberate demo-visible trade-off; change the first row of the table if that is not wanted.
+Skipping the search when every direct route is clean means a cheaper multi-step route is not shown in that case. This is a deliberate trade-off. If any direct route is blocked, unaffordable or unconfirmed, the planner always looks at alternatives (this was tightened during implementation: with a single clean direct route among failing ones, finishing early hid the cheaper ladder).
 
 **Where the LLM visibly matters (for criterion 1):**
 1. Choosing the next action.

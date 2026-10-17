@@ -1,0 +1,13 @@
+{
+  "schema_version": "1",
+  "mode": "real",
+  "version": "real-0",
+  "banner": "Real catalogue — no records have been reviewed yet",
+  "notes": "Intentionally empty. Real records are added only with current official, claim-specific evidence (see docs/architecture.md section 6). Candidate leads: SLIATE HNDIT, UCSC BIT, UoM BIT, UNIVOTEC B.Tech, NAITA/VTA IT courses. None of these is verified here.",
+  "institutions": [],
+  "qualifications": [],
+  "goals": [],
+  "evidence": [],
+  "offerings": [],
+  "transitions": []
+}

@@ -1,0 +1,131 @@
+{
+  "schema_version": "1",
+  "mode": "demo",
+  "version": "demo-1",
+  "banner": "Demonstration data — not verified admission guidance",
+  "notes": "Entirely fictional fixture used for tests and the fallback demo. Living costs are assumed to be covered outside the education budget. Nothing here is a real institution, fee, rule or transition.",
+  "institutions": [
+    {"id": "DEMO-INST-A", "name": "Demo Open University (fictional)", "district": "Colombo"},
+    {"id": "DEMO-INST-B", "name": "Demo Technical Institute (fictional)", "district": "Colombo"}
+  ],
+  "qualifications": [
+    {"id": "DEMO-Q-ENTRY", "name": "Demo A/L Entry Qualification (fictional)"},
+    {"id": "DEMO-Q-ENGLISH", "name": "Demo English Certificate (fictional)"},
+    {"id": "DEMO-Q-FOUNDATION", "name": "Demo Foundation Certificate (fictional)"},
+    {"id": "DEMO-Q-DIPLOMA", "name": "Demo Diploma (fictional)"},
+    {"id": "DEMO-Q-DEGREE", "name": "Demo IT Degree (fictional)"}
+  ],
+  "goals": [
+    {"id": "DEMO-GOAL-IT", "name": "Work in IT (demo goal)", "min_award_level": "degree"}
+  ],
+  "evidence": [
+    {"id": "DEMO-EV-DIRECT", "subject": "Direct degree fees and entry rule", "status": "fixture", "source_title": "Fictional fixture note", "source_url": null, "excerpt": "Invented for tests.", "checked_date": null, "applies_to": "DEMO-DIRECT"},
+    {"id": "DEMO-EV-ONSITE", "subject": "On-campus degree fees, entry rule and location", "status": "fixture", "source_title": "Fictional fixture note", "source_url": null, "excerpt": "Invented for tests.", "checked_date": null, "applies_to": "DEMO-ONSITE"},
+    {"id": "DEMO-EV-LADDER", "subject": "Foundation, diploma and top-up ladder", "status": "fixture", "source_title": "Fictional fixture note", "source_url": null, "excerpt": "Invented for tests.", "checked_date": null, "applies_to": "DEMO-FOUNDATION"},
+    {"id": "DEMO-EV-DIPLOMA-B", "subject": "Second diploma entry rule (needs English)", "status": "fixture", "source_title": "Fictional fixture note", "source_url": null, "excerpt": "Invented for tests.", "checked_date": null, "applies_to": "DEMO-DIPLOMA-B"},
+    {"id": "DEMO-EV-TRANSFER", "subject": "Diploma to transfer-degree credit transfer", "status": "unreviewed", "source_title": "Unreviewed fictional claim", "source_url": null, "excerpt": "No source reviewed; treat as unconfirmed.", "checked_date": null, "applies_to": "DEMO-T4"}
+  ],
+  "offerings": [
+    {
+      "id": "DEMO-DIRECT", "title": "Direct IT Degree (remote)", "institution_id": "DEMO-INST-A",
+      "campus": "Online", "district": null, "delivery_mode": "remote", "intake": "Demo intake", "award_level": "degree",
+      "duration_months": 12, "is_entry": true,
+      "entry_rule": {"op": "has_qual", "value": "DEMO-Q-ENTRY"},
+      "cost_items": [
+        {"id": "DEMO-DIRECT-UP", "label": "Tuition due at start", "kind": "upfront", "category": "tuition", "amount": 12000, "essential": true},
+        {"id": "DEMO-DIRECT-MO", "label": "Monthly tuition", "kind": "recurring", "category": "tuition", "amount": 6000, "essential": true}
+      ],
+      "awards": ["DEMO-Q-DEGREE"], "goals": ["DEMO-GOAL-IT"], "evidence_ids": ["DEMO-EV-DIRECT"]
+    },
+    {
+      "id": "DEMO-ONSITE", "title": "On-campus IT Degree (Colombo only)", "institution_id": "DEMO-INST-B",
+      "campus": "Colombo", "district": "Colombo", "delivery_mode": "on_campus", "intake": "Demo intake", "award_level": "degree",
+      "duration_months": 12, "is_entry": true,
+      "entry_rule": {"op": "all", "children": [
+        {"op": "has_qual", "value": "DEMO-Q-ENTRY"},
+        {"op": "location", "value": "Colombo"}
+      ]},
+      "cost_items": [
+        {"id": "DEMO-ONSITE-UP", "label": "Tuition due at start", "kind": "upfront", "category": "tuition", "amount": 1000, "essential": true},
+        {"id": "DEMO-ONSITE-MO", "label": "Monthly tuition", "kind": "recurring", "category": "tuition", "amount": 3500, "essential": true},
+        {"id": "DEMO-ONSITE-TRAVEL", "label": "Monthly travel", "kind": "recurring", "category": "travel", "amount": 1500, "essential": true}
+      ],
+      "awards": ["DEMO-Q-DEGREE"], "goals": ["DEMO-GOAL-IT"], "evidence_ids": ["DEMO-EV-ONSITE"]
+    },
+    {
+      "id": "DEMO-FOUNDATION", "title": "Foundation Certificate", "institution_id": "DEMO-INST-B",
+      "campus": "Online", "district": null, "delivery_mode": "remote", "intake": "Demo intake", "award_level": "foundation",
+      "duration_months": 3, "is_entry": true,
+      "entry_rule": {"op": "has_qual", "value": "DEMO-Q-ENTRY"},
+      "cost_items": [
+        {"id": "DEMO-FOUNDATION-UP", "label": "Fee due at start", "kind": "upfront", "category": "tuition", "amount": 2000, "essential": true},
+        {"id": "DEMO-FOUNDATION-MO", "label": "Monthly fee", "kind": "recurring", "category": "tuition", "amount": 4000, "essential": true}
+      ],
+      "awards": ["DEMO-Q-FOUNDATION"], "goals": [], "evidence_ids": ["DEMO-EV-LADDER"]
+    },
+    {
+      "id": "DEMO-DIPLOMA", "title": "Diploma (after Foundation)", "institution_id": "DEMO-INST-B",
+      "campus": "Online", "district": null, "delivery_mode": "remote", "intake": "Demo intake", "award_level": "diploma",
+      "duration_months": 3, "is_entry": false,
+      "entry_rule": null,
+      "cost_items": [
+        {"id": "DEMO-DIPLOMA-UP", "label": "Fee due at start", "kind": "upfront", "category": "tuition", "amount": 2000, "essential": true},
+        {"id": "DEMO-DIPLOMA-MO", "label": "Monthly fee", "kind": "recurring", "category": "tuition", "amount": 4000, "essential": true}
+      ],
+      "awards": ["DEMO-Q-DIPLOMA"], "goals": [], "evidence_ids": ["DEMO-EV-LADDER"]
+    },
+    {
+      "id": "DEMO-DIPLOMA-B", "title": "Second Diploma entry (needs English)", "institution_id": "DEMO-INST-B",
+      "campus": "Online", "district": null, "delivery_mode": "remote", "intake": "Demo intake", "award_level": "diploma",
+      "duration_months": 3, "is_entry": true,
+      "entry_rule": {"op": "all", "children": [
+        {"op": "has_qual", "value": "DEMO-Q-ENTRY"},
+        {"op": "has_qual", "value": "DEMO-Q-ENGLISH"}
+      ]},
+      "cost_items": [
+        {"id": "DEMO-DIPLOMA-B-UP", "label": "Fee due at start", "kind": "upfront", "category": "tuition", "amount": 2000, "essential": true},
+        {"id": "DEMO-DIPLOMA-B-MO", "label": "Monthly fee", "kind": "recurring", "category": "tuition", "amount": 4000, "essential": true}
+      ],
+      "awards": ["DEMO-Q-DIPLOMA"], "goals": [], "evidence_ids": ["DEMO-EV-DIPLOMA-B"]
+    },
+    {
+      "id": "DEMO-TOPUP", "title": "Top-up IT Degree", "institution_id": "DEMO-INST-A",
+      "campus": "Online", "district": null, "delivery_mode": "remote", "intake": "Demo intake", "award_level": "degree",
+      "duration_months": 6, "is_entry": false,
+      "entry_rule": null,
+      "cost_items": [
+        {"id": "DEMO-TOPUP-UP", "label": "Fee due at start", "kind": "upfront", "category": "tuition", "amount": 2000, "essential": true},
+        {"id": "DEMO-TOPUP-MO", "label": "Monthly fee", "kind": "recurring", "category": "tuition", "amount": 4000, "essential": true}
+      ],
+      "awards": ["DEMO-Q-DEGREE"], "goals": ["DEMO-GOAL-IT"], "evidence_ids": ["DEMO-EV-LADDER"]
+    },
+    {
+      "id": "DEMO-TRANSFER-DEGREE", "title": "Transfer IT Degree (credit transfer unconfirmed)", "institution_id": "DEMO-INST-A",
+      "campus": "Online", "district": null, "delivery_mode": "remote", "intake": "Demo intake", "award_level": "degree",
+      "duration_months": 6, "is_entry": false,
+      "entry_rule": null,
+      "cost_items": [
+        {"id": "DEMO-TRANSFER-UP", "label": "Fee due at start", "kind": "upfront", "category": "tuition", "amount": 3000, "essential": true},
+        {"id": "DEMO-TRANSFER-MO", "label": "Monthly fee", "kind": "recurring", "category": "tuition", "amount": 4500, "essential": true}
+      ],
+      "awards": ["DEMO-Q-DEGREE"], "goals": ["DEMO-GOAL-IT"], "evidence_ids": ["DEMO-EV-TRANSFER"]
+    }
+  ],
+  "transitions": [
+    {"id": "DEMO-T1", "from": "DEMO-FOUNDATION", "to": "DEMO-DIPLOMA", "transition_type": "progression",
+     "requirements": {"op": "has_qual", "value": "DEMO-Q-FOUNDATION"}, "evidence_claim_ids": ["DEMO-EV-LADDER"], "status": "fixture",
+     "duration_delta_months": null, "cost_delta": null, "note": ""},
+    {"id": "DEMO-T2", "from": "DEMO-DIPLOMA", "to": "DEMO-TOPUP", "transition_type": "progression",
+     "requirements": {"op": "has_qual", "value": "DEMO-Q-DIPLOMA"}, "evidence_claim_ids": ["DEMO-EV-LADDER"], "status": "fixture",
+     "duration_delta_months": null, "cost_delta": null, "note": ""},
+    {"id": "DEMO-T3", "from": "DEMO-DIPLOMA-B", "to": "DEMO-TOPUP", "transition_type": "progression",
+     "requirements": {"op": "has_qual", "value": "DEMO-Q-DIPLOMA"}, "evidence_claim_ids": ["DEMO-EV-DIPLOMA-B"], "status": "fixture",
+     "duration_delta_months": null, "cost_delta": null, "note": ""},
+    {"id": "DEMO-T4", "from": "DEMO-DIPLOMA", "to": "DEMO-TRANSFER-DEGREE", "transition_type": "exemption",
+     "requirements": {"op": "has_qual", "value": "DEMO-Q-DIPLOMA"}, "evidence_claim_ids": ["DEMO-EV-TRANSFER"], "status": "unreviewed",
+     "duration_delta_months": null, "cost_delta": null, "note": "Credit transfer is unconfirmed and has no mapped cost or duration effect."},
+    {"id": "DEMO-T5", "from": "DEMO-DIPLOMA", "to": "DEMO-FOUNDATION", "transition_type": "re_entry",
+     "requirements": {"op": "has_qual", "value": "DEMO-Q-DIPLOMA"}, "evidence_claim_ids": ["DEMO-EV-LADDER"], "status": "fixture",
+     "duration_delta_months": null, "cost_delta": null, "note": "Back-edge that exists to test cycle handling."}
+  ]
+}

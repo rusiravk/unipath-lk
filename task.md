@@ -58,23 +58,23 @@ M8 (real data) is independent of M5 to M7 and is done in short blocks between th
 
 - [ ] **M0 accepted**
 
-- [ ] **M0.1 Inspect the project.** Check the current Jac Hammer project, generated layout, `AGENTS.md`, `CLAUDE.md` and existing code. Initialize only if nothing exists.
+- [x] **M0.1 Inspect the project.** Check the current Jac Hammer project, generated layout, `AGENTS.md`, `CLAUDE.md` and existing code. Initialize only if nothing exists.
   *Verify:* a short written summary of what already exists and what is missing.
-- [ ] **M0.2 Run the preview and record the runtime.** Record Jac, client and byLLM versions, install/start/check/test/build commands, tested OS, and whether sandbox or permanent deploy is available.
+- [x] **M0.2 Run the preview and record the runtime.** Record Jac, client and byLLM versions, install/start/check/test/build commands, tested OS, and whether sandbox or permanent deploy is available.
   *Verify:* preview loads; commands recorded in `README.md`.
 - [ ] **M0.3 Git baseline.** Connect the GitHub repo and branch. Preserve a single `jac.toml`, the template entrypoint and the Hammer project linkage.
   *Verify:* clean clone builds.
-- [ ] **M0.4 Branching walker spike.** Build a tiny graph with two branches and a copied state per branch. Confirm walker spawn/visit semantics. Sequential branches driven by a coordinator function are acceptable if isolation holds.
+- [x] **M0.4 Branching walker spike.** Build a tiny graph with two branches and a copied state per branch. Confirm walker spawn/visit semantics. Sequential branches driven by a coordinator function are acceptable if isolation holds.
   *Verify:* a test shows branch A's state change does not appear in branch B.
 - [ ] **M0.5 Typed `by llm` spike.** One typed call. Observe how output typing, timeout and retry control actually work. If no credentials exist, record this as an AI blocker; do not stop deterministic work.
   *Verify:* a typed result is returned, or the blocker is recorded.
-- [ ] **M0.6 Endpoint spike.** Expose one generated API operation and call it.
+- [x] **M0.6 Endpoint spike.** Expose one generated API operation and call it.
   *Verify:* a response is received; actual route naming recorded.
-- [ ] **M0.7 Startup initialization and graph rendering.** Confirm where a one-time startup catalogue load can run, and which native Jac client options can render a graph.
+- [x] **M0.7 Startup initialization and graph rendering.** Confirm where a one-time startup catalogue load can run, and which native Jac client options can render a graph.
   *Verify:* findings recorded in `README.md`.
 - [ ] **M0.8 Repo hygiene.** Add `docs/architecture.md`, this `task.md`, `.env.example`, `.gitignore` secret exclusions. Make `CLAUDE.md` point to `AGENTS.md`. Put the invariants from section 0 into `AGENTS.md`.
   *Verify:* no secrets tracked.
-- [ ] **M0.9 Jac source-counting method.** Record how the 80% handwritten-Jac share will be counted. Confirm the organisers' interpretation when available.
+- [x] **M0.9 Jac source-counting method.** Record how the 80% handwritten-Jac share will be counted. Confirm the organisers' interpretation when available.
 - [ ] **M0.10 Commit the baseline.** Record branch and SHA.
 
 **Gate:** starter runs; critical runtime assumptions have evidence.
@@ -83,15 +83,15 @@ M8 (real data) is independent of M5 to M7 and is done in short blocks between th
 
 ## 3. M1: Domain model, fixture and loader
 
-- [ ] **M1 accepted**
+- [x] **M1 accepted**
 
-- [ ] **M1.1 Catalogue nodes.** Implement `Institution`, `Qualification`, `CourseOffering`, `CareerGoal`, `EvidenceClaim`, plus `EvidenceSource` records.
+- [x] **M1.1 Catalogue nodes.** Implement `Institution`, `Qualification`, `CourseOffering`, `CareerGoal`, `EvidenceClaim`, plus `EvidenceSource` records.
   *Files:* `main.jac` (models section). *Verify:* `<check>` passes.
-- [ ] **M1.2 Planning objects.** Implement `StudentProfile`, `RequirementExpr`, `CostItem`, `SearchState`, `CandidatePlan`, `Finding`, `Question`, `DecisionEvent`, `ActionItem` (architecture section 5).
+- [x] **M1.2 Planning objects.** Implement `StudentProfile`, `RequirementExpr`, `CostItem`, `SearchState`, `CandidatePlan`, `Finding`, `Question`, `DecisionEvent`, `ActionItem` (architecture section 5).
   *Verify:* `<check>` passes; unknown values are nullable.
-- [ ] **M1.3 Typed edges.** Implement `Offers`, `Awards`, `ProgressesTo`, `SupportsGoal`, `SupportedBy` (entry rules are `RequirementExpr` objects, so there is no `Requires` edge). `ProgressesTo` carries `transition_id`, `transition_type`, `requirements`, `evidence_claim_ids`, `status` and optional validated cost/duration adjustment.
+- [x] **M1.3 Typed edges.** Implement `Offers`, `Awards`, `ProgressesTo`, `SupportsGoal`, `SupportedBy` (entry rules are `RequirementExpr` objects, so there is no `Requires` edge). `ProgressesTo` carries `transition_id`, `transition_type`, `requirements`, `evidence_claim_ids`, `status` and optional validated cost/duration adjustment.
   *Verify:* a tiny graph builds with each edge type.
-- [ ] **M1.4 Fixture file.** Create `data/demo/catalogue.json` (fictional institutions, qualifications, `fixture` evidence). Required content:
+- [x] **M1.4 Fixture file.** Create `data/demo/catalogue.json` (fictional institutions, qualifications, `fixture` evidence). Required content:
   - Entry qualification `DEMO-Q-ENTRY`; goal `DEMO-GOAL-IT`.
   - **Direct degree:** 12,000 upfront, 6,000/month, 12 months, remote.
   - **Ladder:** Foundation (3 months) → Diploma (3 months) → Top-up degree (6 months). Each step 2,000 upfront and 4,000/month.
@@ -101,13 +101,13 @@ M8 (real data) is independent of M5 to M7 and is done in short blocks between th
   - **One back-edge** (cycle test).
   - Living costs assumed covered outside the education budget; state this in the fixture notes.
   *Verify:* file validates against the loader in M1.5.
-- [ ] **M1.5 Validated loader.** Validate stable IDs, references, rule operators and numeric values. Build the graph from the JSON, constructing every typed edge: `Institution -Offers-> CourseOffering`, `CourseOffering -Awards-> Qualification`, `-SupportsGoal-> CareerGoal`, `-SupportedBy-> EvidenceClaim`, and `ProgressesTo`. Initialize once at startup, not per request. A failed import must leave the previous healthy snapshot active or make readiness fail.
+- [x] **M1.5 Validated loader.** Validate stable IDs, references, rule operators and numeric values. Build the graph from the JSON, constructing every typed edge: `Institution -Offers-> CourseOffering`, `CourseOffering -Awards-> Qualification`, `-SupportsGoal-> CareerGoal`, `-SupportedBy-> EvidenceClaim`, and `ProgressesTo`. Initialize once at startup, not per request. A failed import must leave the previous healthy snapshot active or make readiness fail.
   *Verify:* a bad reference is rejected with a clear error; after import, each node and edge type has at least one instance and is read by search or a lens.
-- [ ] **M1.6 Snapshot metadata.** `CatalogueSnapshot` with `version`, `mode` (`demo` or `real`), `schema_version`, `content_hash`.
+- [x] **M1.6 Snapshot metadata.** `CatalogueSnapshot` with `version`, `mode` (`demo` or `real`), `schema_version`, `content_hash`.
   *Verify:* the hash is stable across runs.
-- [ ] **M1.7 Idempotent import (T09).** Re-running import creates no duplicate nodes or edges.
+- [x] **M1.7 Idempotent import (T09).** Re-running import creates no duplicate nodes or edges.
   *Verify:* node and edge counts identical after two imports.
-- [ ] **M1.8 Offering fidelity.** Keep campus, intake and mode on offerings. SLQF and NVQ claims are separate fields with separate evidence. Unknown stays `null`.
+- [x] **M1.8 Offering fidelity.** Keep campus, intake and mode on offerings. SLQF and NVQ claims are separate fields with separate evidence. Unknown stays `null`.
   *Verify:* the loader rejects an SLQF value inferred from an NVQ value (no such inference code exists).
 - [ ] **M1.9 Commit.**
 
@@ -117,17 +117,17 @@ M8 (real data) is independent of M5 to M7 and is done in short blocks between th
 
 ## 4. M2: Rule evaluator
 
-- [ ] **M2 accepted**
+- [x] **M2 accepted**
 
-- [ ] **M2.1 Expression types.** Allowlisted `all`, `any`, and typed predicates: qualification possession, subject grade, same-sitting passes, stream, location permission, study mode, available cash. No `eval` or string rules.
+- [x] **M2.1 Expression types.** Allowlisted `all`, `any`, and typed predicates: qualification possession, subject grade, same-sitting passes, stream, location permission, study mode, available cash. No `eval` or string rules.
   *Verify:* an unknown operator is rejected at load time.
-- [ ] **M2.2 Three-valued logic.** `pass`, `fail`, `unknown` with the truth tables from architecture section 8.
+- [x] **M2.2 Three-valued logic.** `pass`, `fail`, `unknown` with the truth tables from architecture section 8.
   *Verify:* a unit table covers `all` and `any` with mixed children.
-- [ ] **M2.3 Inventory semantics.** A qualification absent from a *declared complete* inventory is absent (fail). A qualification not yet asked about is unknown. Add an inventory-completeness marker to the profile.
+- [x] **M2.3 Inventory semantics.** A qualification absent from a *declared complete* inventory is absent (fail). A qualification not yet asked about is unknown. Add an inventory-completeness marker to the profile.
   *Verify:* the same missing qualification gives `fail` when complete, `unknown` when not.
-- [ ] **M2.4 Findings.** Each evaluation returns a `Finding` with rule ID, result, entity, required/actual values, evidence IDs and a short explanation. Keep `predicate_result` separate from `evidence_status`.
+- [x] **M2.4 Findings.** Each evaluation returns a `Finding` with rule ID, result, entity, required/actual values, evidence IDs and a short explanation. Keep `predicate_result` separate from `evidence_status`.
   *Verify:* a rule met by user data but with `fixture` evidence reports both separately.
-- [ ] **M2.5 Tests T02 and T03 (rule level).** T02: the AND prerequisite missing means failure even though an incoming edge exists. T03: an unanswered field yields `unknown`.
+- [x] **M2.5 Tests T02 and T03 (rule level).** T02: the AND prerequisite missing means failure even though an incoming edge exists. T03: an unanswered field yields `unknown`.
   *Verify:* `<test>` passes both.
 - [ ] **M2.6 Commit.**
 
@@ -137,23 +137,23 @@ M8 (real data) is independent of M5 to M7 and is done in short blocks between th
 
 ## 5. M3: Graph search
 
-- [ ] **M3 accepted**
+- [x] **M3 accepted**
 
-- [ ] **M3.1 Goal ancestors.** From the goal, resolve relevant awards, offerings and incoming progression ancestors within the depth limit.
+- [x] **M3.1 Goal ancestors.** From the goal, resolve relevant awards, offerings and incoming progression ancestors within the depth limit.
   *Verify:* the relevant set for `DEMO-GOAL-IT` contains the direct, ladder and transfer offerings.
-- [ ] **M3.2 Entry states.** Evaluate entry offerings against the profile. Pass or unknown starts a route. Known failure is retained as a blocked finding.
+- [x] **M3.2 Entry states.** Evaluate entry offerings against the profile. Pass or unknown starts a route. Known failure is retained as a blocked finding.
   *Verify:* a profile lacking the English qualification blocks the second diploma entry with a recorded finding.
-- [ ] **M3.3 Branch walker.** One walker per branch that `visit`s `ProgressesTo` edges, with a copied `SearchState` (fresh `list`/`dict` copies per child). A coordinator-scheduled hop is a fallback only if the M0.4 spike failed, and is disclosed. Provisionally complete a step, attach its award and conditions, then explore eligible `ProgressesTo` edges.
+- [x] **M3.3 Branch walker.** One walker per branch that `visit`s `ProgressesTo` edges, with a copied `SearchState` (fresh `list`/`dict` copies per child). A coordinator-scheduled hop is a fallback only if the M0.4 spike failed, and is disclosed. Provisionally complete a step, attach its award and conditions, then explore eligible `ProgressesTo` edges.
   *Verify:* the M0.4 isolation test still passes on real state.
-- [ ] **M3.4 Visited signature.** Branch-local signature = current offering + accumulated qualifications + transition history + applicability conditions. No global visited-course set.
+- [x] **M3.4 Visited signature.** Branch-local signature = current offering + accumulated qualifications + transition history + applicability conditions. No global visited-course set.
   *Verify:* two valid routes through the same offering are both kept.
-- [ ] **M3.5 Limits.** Defaults: 4 steps, 100 expanded states, 20 candidates, 3 displayed. Deterministic ordering. Set `search_truncated` when a limit is hit.
+- [x] **M3.5 Limits.** Defaults: 4 steps, 100 expanded states, 20 candidates, 3 displayed. Deterministic ordering. Set `search_truncated` when a limit is hit.
   *Verify:* a limit of 1 expansion sets the flag.
-- [ ] **M3.6 Whole-plan revalidation.** Revalidate every step and transition, then the complete candidate, before ranking. Future awards stay conditional on completion and never alter the real profile.
+- [x] **M3.6 Whole-plan revalidation.** Revalidate every step and transition, then the complete candidate, before ranking. Future awards stay conditional on completion and never alter the real profile.
   *Verify:* a route with a stale step fails revalidation.
-- [ ] **M3.7 Decision events.** Log actual branch rejections and alternative explorations as `DecisionEvent`s. Do not fabricate a retracing animation.
+- [x] **M3.7 Decision events.** Log actual branch rejections and alternative explorations as `DecisionEvent`s. Do not fabricate a retracing animation.
   *Verify:* the blocked second-diploma branch produces an event naming the blocked step.
-- [ ] **M3.8 Tests T01 and T08.** T01: direct and multi-step both found. T08: the back-edge terminates; branches do not contaminate each other.
+- [x] **M3.8 Tests T01 and T08.** T01: direct and multi-step both found. T08: the back-edge terminates; branches do not contaminate each other.
   *Verify:* `<test>` passes both.
 - [ ] **M3.9 Commit.**
 
@@ -163,22 +163,22 @@ M8 (real data) is independent of M5 to M7 and is done in short blocks between th
 
 ## 6. M4: Cost ledger, status and ranking
 
-- [ ] **M4 accepted**
+- [x] **M4 accepted**
 
-- [ ] **M4.1 Money type.** Integer LKR with a single documented rounding point.
-- [ ] **M4.2 Event ledger.** Month 0 starts the first course. Per month: subtract upfront costs → record minimum → add month-end contribution (and declared income) → subtract recurring costs → record minimum.
+- [x] **M4.1 Money type.** Integer LKR with a single documented rounding point.
+- [x] **M4.2 Event ledger.** Month 0 starts the first course. Per month: subtract upfront costs → record minimum → add month-end contribution (and declared income) → subtract recurring costs → record minimum.
   *Verify:* a hand-computed 2-month example matches.
-- [ ] **M4.3 Outputs.** Known total cost, nominal duration, minimum balance, maximum recurring gap, and `additional_initial_cash_needed = max(0, -minimum_balance)`.
+- [x] **M4.3 Outputs.** Known total cost, nominal duration, minimum balance, maximum recurring gap, and `additional_initial_cash_needed = max(0, -minimum_balance)`.
   *Verify:* values returned as separate fields.
-- [ ] **M4.4 Unknowns.** An unknown essential amount or timing makes the ledger incomplete. An incomplete ledger never claims affordability.
+- [x] **M4.4 Unknowns.** An unknown essential amount or timing makes the ledger incomplete. An incomplete ledger never claims affordability.
   *Verify:* a null cost item yields `needs_confirmation` with a cost finding. (T15)
-- [ ] **M4.5 Route status.** Precedence: known hard failure → `not_feasible_under_current_inputs`; material unknown → `needs_confirmation`; future completion or selection → `conditional`; otherwise `feasible_under_stated_assumptions`. Keep all findings.
+- [x] **M4.5 Route status.** Precedence: known hard failure → `not_feasible_under_current_inputs`; material unknown → `needs_confirmation`; future completion or selection → `conditional`; otherwise `feasible_under_stated_assumptions`. Keep all findings.
   *Verify:* one candidate per status exists in a constructed test.
-- [ ] **M4.6 Exemptions.** Apply an exemption's cost or duration effect only when an explicit mapped effect exists.
+- [x] **M4.6 Exemptions.** Apply an exemption's cost or duration effect only when an explicit mapped effect exists.
   *Verify:* an exemption with no mapped effect changes nothing. (T16)
-- [ ] **M4.7 Ranking.** Group by status first. Within a group, keep non-dominated options on known total cost, nominal duration and study-mode fit. No score for unknown values. Deterministic tie-break by route fingerprint. At most three distinct plans.
+- [x] **M4.7 Ranking.** Group by status first. Within a group, keep non-dominated options on known total cost, nominal duration and study-mode fit. No score for unknown values. Deterministic tie-break by route fingerprint. At most three distinct plans.
   *Verify:* a blocked route never outranks an eligible one.
-- [ ] **M4.8 T05 fixture numbers.**
+- [x] **M4.8 T05 fixture numbers.**
 
 | Case | Total LKR | Minimum balance | Extra initial cash |
 |---|---:|---:|---:|
@@ -197,19 +197,19 @@ M8 (real data) is independent of M5 to M7 and is done in short blocks between th
 
 ### M5: Four lens walkers and clarification
 
-- [ ] **M5 accepted**
+- [x] **M5 accepted**
 
 All three deterministic lens walkers traverse the graph (`visit` offerings) and inspect each node with a walker ability; none loops over a list from `Root`.
 
-- [ ] **M5.1 Aspiration lens.** Goal, study-mode and duration fit findings from supported facts only.
-- [ ] **M5.2 Fiscal lens.** Cash status, minimum balance, shortfall and unknown-cost findings from the cost engine.
-- [ ] **M5.3 Gatekeeper lens.** Requirement status and claim-specific evidence references.
-- [ ] **M5.4 Bridge lens (deterministic form).** Consume existing candidate routes and emit repair proposals with deterministic ordering. LLM ranking is added in M7.
-- [ ] **M5.5 Request-local findings.** Collect all lens findings in a request-local list keyed by candidate and node/edge. Nothing is written to shared nodes.
+- [x] **M5.1 Aspiration lens.** Goal, study-mode and duration fit findings from supported facts only.
+- [x] **M5.2 Fiscal lens.** Cash status, minimum balance, shortfall and unknown-cost findings from the cost engine.
+- [x] **M5.3 Gatekeeper lens.** Requirement status and claim-specific evidence references.
+- [x] **M5.4 Bridge lens (deterministic form).** Consume existing candidate routes and emit repair proposals with deterministic ordering. LLM ranking is added in M7.
+- [x] **M5.5 Request-local findings.** Collect all lens findings in a request-local list keyed by candidate and node/edge. Nothing is written to shared nodes.
   *Verify:* after two different requests, catalogue nodes are unchanged.
-- [ ] **M5.6 Clarification shortlist.** Candidate questions come only from missing fields referenced by relevant rules. Utility = how many surviving candidates it could change, blocker severity, effort to answer. Offer one question at a time. Skipped fields are not asked again in the same conversation; a profile edit clears the skip.
+- [x] **M5.6 Clarification shortlist.** Candidate questions come only from missing fields referenced by relevant rules. Utility = how many surviving candidates it could change, blocker severity, effort to answer. Offer one question at a time. Skipped fields are not asked again in the same conversation; a profile edit clears the skip.
   *Verify:* a complete profile asks nothing; the location-restricted option triggers a relocation question only when it matters.
-- [ ] **M5.7 T03 question assertion.** Unknown entry field leads to a relevant question.
+- [x] **M5.7 T03 question assertion.** Unknown entry field leads to a relevant question.
   *Verify:* `<test>` passes.
 - [ ] **M5.8 Commit.**
 
@@ -219,22 +219,22 @@ All three deterministic lens walkers traverse the graph (`visit` offerings) and 
 
 - [ ] **M6 accepted**
 
-- [ ] **M6.1 Operations.** Implement `get_app_info`, `get_catalogue_projection`, `plan_pathways`, `get_evidence`, `health` using the template's real mechanism. The sixth operation, `run_stress_test`, is staged to M9.8; all six are required for release unless the stress cut is recorded. Document the actual names and routes in `README.md`.
+- [x] **M6.1 Operations.** Implement `get_app_info`, `get_catalogue_projection`, `plan_pathways`, `get_evidence`, `health` using the template's real mechanism. The sixth operation, `run_stress_test`, is staged to M9.8; all six are required for release unless the stress cut is recorded. Document the actual names and routes in `README.md`.
   *Verify:* each operation responds.
-- [ ] **M6.2 Input validation.** Bounded text lengths, arrays, numeric ranges and enumerations; reject unknown catalogue IDs. Error codes `INVALID_PROFILE`, `CATALOGUE_CHANGED`, `REQUEST_LIMIT_EXCEEDED`, `INTERNAL_ERROR`.
+- [x] **M6.2 Input validation.** Bounded text lengths, arrays, numeric ranges and enumerations; reject unknown catalogue IDs. Error codes `INVALID_PROFILE`, `CATALOGUE_CHANGED`, `REQUEST_LIMIT_EXCEEDED`, `INTERNAL_ERROR`.
   *Verify:* oversized and malformed inputs return non-sensitive errors.
-- [ ] **M6.3 Recompute everything.** Ignore client-supplied cost, status or prior results. A zero-feasible result is a valid `ready` result, not an error.
+- [x] **M6.3 Recompute everything.** Ignore client-supplied cost, status or prior results. A zero-feasible result is a valid `ready` result, not an error.
   *Verify:* T13 passes.
-- [ ] **M6.4 Response contract.** `schema_version`, `request_id`, `conversation_id`, `profile_revision`, `profile_hash`, catalogue info, `run_status`, `planner_mode`, `fallback_reason`, `pending_question`, `candidates`, `blocked_candidates`, `decision_events`, `warnings`, `search_truncated`, `metrics`.
+- [x] **M6.4 Response contract.** `schema_version`, `request_id`, `conversation_id`, `profile_revision`, `profile_hash`, catalogue info, `run_status`, `planner_mode`, `fallback_reason`, `pending_question`, `candidates`, `blocked_candidates`, `decision_events`, `warnings`, `search_truncated`, `metrics`.
   *Verify:* a sample response matches the contract.
-- [ ] **M6.5 Projection endpoint.** Whitelisted public IDs and edges only.
+- [x] **M6.5 Projection endpoint.** Whitelisted public IDs and edges only.
   *Verify:* no unrestricted node access.
-- [ ] **M6.6 Readiness.** `health` fails if catalogue import failed. A missing AI key is healthy and advertises fallback.
+- [x] **M6.6 Readiness.** `health` fails if catalogue import failed. A missing AI key is healthy and advertises fallback.
 - [ ] **M6.7 Minimal UI.** Plain form and result list, enough to exercise the whole fallback flow. No graph styling yet. Handle loading, invalid-input, no-path and retryable-error states; preserve input on error.
   *Verify:* manual run of profile → question → answer → revised result with no AI key.
 - [ ] **M6.8 Revision handling.** Browser increments `profile_revision`, marks current cards stale, and discards any response older than the latest.
   *Verify:* U01 passes.
-- [ ] **M6.9 Isolation.** Two anonymous requests share no profile or lens state.
+- [x] **M6.9 Isolation.** Two anonymous requests share no profile or lens state.
   *Verify:* P01 passes.
 - [ ] **M6.10 Commit.**
 
@@ -245,22 +245,22 @@ All three deterministic lens walkers traverse the graph (`visit` offerings) and 
 - [ ] **M7 accepted** (or marked **deferred/partial** with the limitation disclosed)
 
 - [ ] **M7.1 Server-side credentials.** Configure the application's own provider key and model via environment variables. Hammer's assistant credentials are not assumed.
-- [ ] **M7.2 Typed actions.** `ask_student`, `search_alternatives`, `evaluate_candidates`, `finish`, with the guards from architecture section 9.
+- [x] **M7.2 Typed actions.** `ask_student`, `search_alternatives`, `evaluate_candidates`, `finish`, with the guards from architecture section 9.
   *Verify:* an unknown action or ID is rejected.
-- [ ] **M7.3 Observations.** Compact input only: minimal profile fields, catalogue IDs/titles, compact findings, allowed actions, remaining budget. No name, NIC or contact data. Treat user text and source excerpts as data, not instructions.
-- [ ] **M7.3b Decision table.** Implement the rules fallback as the decision policy in architecture section 9. Test the three expected sequences (low savings with unknown relocation; after "yes"; high savings 24,000) against the fallback. For live AI, record the observed sequence only.
+- [x] **M7.3 Observations.** Compact input only: minimal profile fields, catalogue IDs/titles, compact findings, allowed actions, remaining budget. No name, NIC or contact data. Treat user text and source excerpts as data, not instructions.
+- [x] **M7.3b Decision table.** Implement the rules fallback as the decision policy in architecture section 9. Test the three expected sequences (low savings with unknown relocation; after "yes"; high savings 24,000) against the fallback. For live AI, record the observed sequence only.
   *Verify:* the fallback produces the three expected sequences; they differ from one another.
-- [ ] **M7.4 Guards.** Reject invented questions, repeated identical searches, and attempts to relax hard constraints.
+- [x] **M7.4 Guards.** Reject invented questions, repeated identical searches, and attempts to relax hard constraints.
   *Verify:* each rejection produces a logged event, then fallback or a retry within budget.
-- [ ] **M7.5 Shared budget.** One run budget across planner, Bridge and explanation calls: at most 3 provider attempts including retries, 8 s per attempt, 30 s per run. Disable hidden provider retries or count them.
+- [x] **M7.5 Shared budget.** One run budget across planner, Bridge and explanation calls: at most 3 provider attempts including retries, 8 s per attempt, 30 s per run. Disable hidden provider retries or count them.
   *Verify:* L01 passes.
-- [ ] **M7.6 Bridge ranking.** The LLM ranks and explains only supplied catalogue candidates. Validate route IDs; status grouping stays authoritative. No catalogue writes, URL fetches or invented routes.
-- [ ] **M7.7 Bridge effect test.** Accepted Bridge output changes ordering or explanation but never eligibility.
+- [x] **M7.6 Bridge ranking.** The LLM ranks and explains only supplied catalogue candidates. Validate route IDs; status grouping stays authoritative. No catalogue writes, URL fetches or invented routes.
+- [x] **M7.7 Bridge effect test.** Accepted Bridge output changes ordering or explanation but never eligibility.
   *Verify:* B01 passes with a stubbed provider.
-- [ ] **M7.8 Out-of-catalogue proposals.** Rejected. Documented `unreviewed` transitions appear only as `needs_confirmation` alternatives.
-- [ ] **M7.9 Fallback.** Missing key, timeout, malformed output or invalid IDs switch to the deterministic path. Emit `planner_mode` (`live_ai`, `rules_fallback`, `mixed`) and a non-sensitive `fallback_reason`.
+- [x] **M7.8 Out-of-catalogue proposals.** Rejected. Documented `unreviewed` transitions appear only as `needs_confirmation` alternatives.
+- [x] **M7.9 Fallback.** Missing key, timeout, malformed output or invalid IDs switch to the deterministic path. Emit `planner_mode` (`live_ai`, `rules_fallback`, `mixed`) and a non-sensitive `fallback_reason`.
   *Verify:* T11 passes.
-- [ ] **M7.10 Activity log.** Report only actions that actually completed or failed. No private model reasoning.
+- [x] **M7.10 Activity log.** Report only actions that actually completed or failed. No private model reasoning.
 - [ ] **M7.11 Live check.** Run one live-provider integration check and two profiles that should lead to different relevant action sequences. Record what was observed, not what was expected.
 - [ ] **M7.12 Commit.**
 
@@ -299,10 +299,10 @@ Scope boundary: **at most two meaningful real routes**. Reduce coverage before d
 - [ ] **M9.5 Route cards.** Up to three: steps, cost breakdown (known / estimated / unknown), duration, assumptions, conditions, evidence links, last-checked date, next actions. Support fewer or zero.
 - [ ] **M9.6 Activity and mode.** Show actual decision events, backtracking events, planner mode and fallback reason. Update highlights on each revised result.
 - [ ] **M9.7 Stale and error handling.** Discard stale revisions; preserve input on errors. The UI formats backend values and never computes eligibility or totals.
-- [ ] **M9.8 `run_stress_test` operation.** Same deterministic engine, a *copy* of the profile and scenario, the same catalogue snapshot. The baseline is never mutated.
+- [x] **M9.8 `run_stress_test` operation.** Same deterministic engine, a *copy* of the profile and scenario, the same catalogue snapshot. The baseline is never mutated.
   *Verify:* S01: only scenario inputs change.
-- [ ] **M9.9 Travel +40%.** Modify explicit travel cost items only. Unknown travel stays unknown; no travel gives a disclosed zero delta. Use a separate labelled stress fixture containing a travel item, with deltas computed by hand in the test (do not alter the T05 numbers).
-- [ ] **M9.10 Six-month delay.** Document which costs and contributions continue during the gap and show those assumptions. Do not infer intake availability, inflation or new fees.
+- [x] **M9.9 Travel +40%.** Modify explicit travel cost items only. Unknown travel stays unknown; no travel gives a disclosed zero delta. Use a separate labelled stress fixture containing a travel item, with deltas computed by hand in the test (do not alter the T05 numbers).
+- [x] **M9.10 Six-month delay.** Document which costs and contributions continue during the gap and show those assumptions. Do not infer intake availability, inflation or new fees.
 - [ ] **M9.11 Deltas display.** Absolute cost, shortfall and duration deltas; "unknown" where inputs are incomplete. No survival or probability percentage.
 - [ ] **M9.12 Smoke checks.** Revision and stale-response checks, stress recalculation, and a recorded backup of the working flow before deployment work starts.
 - [ ] **M9.13 Commit.** Freeze new features after this; deployment follows.
