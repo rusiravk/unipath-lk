@@ -1,2 +1,9 @@
 .jac/
 node_modules/
+<<<<<<< HEAD
+.env
+.env.local
+*.log
+=======
+.env
+>>>>>>> 0c85da597d6a628a8742e0b8357be9695df7f4cf

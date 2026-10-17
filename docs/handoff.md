@@ -2,7 +2,7 @@
 
 ## Implemented versus planned
 
-**Currently implemented:** JacHammer blank-canvas web-app scaffolding, its configured Jac/shadcn client dependencies, a minimal client entry, and template UI components. The UniPath LK pathway flow, backend, graph, fixtures, session isolation, tests, and verified real catalogue are not implemented by this documentation-only update.
+**Currently implemented (checked locally on Jac 0.16.7, not on JacHammer 0.34.23):** the typed catalogue graph and loader, rule evaluator, bounded branch-walker search, cash-flow ledger, four lens walkers, clarification, planner with rules fallback and guarded `by llm` hooks, six public API operations, stress test, and the web UI (`backend.jac`, `backend.test.jac`, `frontend.cl.jac`, `components/*.cl.jac`). 42 backend tests pass. Not done: live-provider run, JacHammer verification, deployment, source review of the real catalogue, recorded demo.
 
 **Deferred for local development:** the complete student profile and goal flow; owned planning sessions; fixture graph and bounded walker; deterministic eligibility/cost validation; clarification and resume; accessible graph and text-pathway results; actual activity events; optional bounded LLM actions and labeled rules fallback; test suite; source-reviewed real catalogue. Broader programme coverage, administration, refresh automation, advanced financing, Minimum Change Finder, gap analysis, scenario comparisons, Sinhala localization, and evaluation remain later work.
 
@@ -18,7 +18,7 @@
 
 ## Verification and limitations
 
-The Markdown updates were written in this workspace; no Jac source, runtime check, build, application flow, Git remote operation, provider call, catalogue verification, or deployment is asserted by this documentation-only task. Recheck exact install, check, test, and build commands against the actual Jac 0.34.23 installation and project scripts before claiming them as verified. The initial real catalogue should remain empty until claim-specific official sources are reviewed.
+Checks actually performed are listed in the progress log in task.md. No provider call, JacHammer run, deployment or catalogue source review has been performed by this build. Recheck exact install, check, test, and build commands against the actual Jac 0.34.23 installation and project scripts before claiming them as verified. The initial real catalogue should remain empty until claim-specific official sources are reviewed.
 
 ## Prioritized next tasks
 
