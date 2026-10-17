@@ -51,7 +51,7 @@ Accounts and saved plans, Minimum Change Finder, Gap Finder, multilingual UI, li
 - No invented institutions, exemptions, fees or bridges shown as real.
 - No "survival rate" or "89% confidence" numbers.
 - The LLM never sets eligibility, writes to the catalogue, or fetches URLs.
-- `null` means unknown, never free or zero.
+- Unknown (`null` in JSON, `None` in Jac) means unknown, never free or zero.
 - Demo and real data are labelled visibly.
 
 ---
@@ -105,7 +105,7 @@ Jac **edges**: `Offers`, `Awards`, `Requires`, `ProgressesTo`, `SupportsGoal`, `
 
 Key conventions:
 - IDs are stable application IDs, not native graph IDs.
-- Amounts are integer LKR. `null` = unknown.
+- Amounts are integer LKR. Unknown = `None` in Jac (`null` in JSON), e.g. `int | None = None`.
 - A course is an **offering**: campus, mode and intake matter. UCSC BIT and Moratuwa BIT are different records.
 - SLQF and NVQ claims are separate fields, each with its own evidence. Never infer one from the other.
 - `ProgressesTo` carries `transition_type`, `requirements`, `evidence_claim_ids`, `status`, and an optional validated cost/duration change. An exemption with no mapped effect changes nothing.
@@ -176,6 +176,7 @@ while frontier and within limits:
 ```
 
 - **One walker per branch** with its own immutable or copied `SearchState`. Never share one mutable accumulator across `visit` children.
+- **Copy collections when spawning.** In Jac, `list` and `dict` values are passed by reference between walkers. Build a fresh copy for each child, e.g. `list(state.visited_path)` and `dict(state.costs)`, so two branches never mutate each other's state.
 - **Visited signature** = current offering + accumulated qualifications + transition history. Not a global "visited course" set.
 - **Backtracking** (visible in the UI): a blocked branch is logged as a `DecisionEvent` ("blocked at X, retracing to fork Y, trying Z").
 - **Limits (configurable):** 4 steps, 100 expanded states, 20 candidates, 3 shown. If hit, return `search_truncated: true`.
@@ -294,7 +295,17 @@ One responsive page.
 
 ---
 
-## 13. Jac unknowns to resolve first (first 45 minutes)
+## 13. Jac constraints and unknowns to resolve first (first 45 minutes)
+
+### Jac rules for today's build (from the team's notes)
+
+1. **Keep backend code in 1-2 `.jac` files** (`main.jac`, optionally `tests.jac`). Cross-file `include` / `import` can cause circular-import problems, and that risk is not worth it in a 6-hour build. The module split in section 18 is a logical grouping (sections within `main.jac`), not separate files.
+2. **Use `None`, never `null`, in `.jac` code** (e.g. `int | None = None`), even when the source JSON contains `null`.
+3. **Copy `list` / `dict` state when spawning branch walkers** (see section 7); they are passed by reference.
+
+> **Version check:** these notes cite Jac v0.16.7, but `CLAUDE.md`, `AGENTS.md` and `README.md` say the project environment is Jac 0.34.23. Run `jac --version` and treat the installed compiler as authoritative; re-verify the three rules above against it.
+
+### Unknowns
 
 Do not claim any of these until tested in the actual scaffold:
 
@@ -366,7 +377,8 @@ No badges for numbers we did not measure.
 
 ```text
 jac.toml
-backend/  models.jac rules.jac catalogue.jac search.jac lenses.jac costing.jac ranking.jac planner.jac api.jac
+main.jac  all backend code, in labelled sections: models, rules, catalogue, search, lenses, costing, ranking, planner, api
+tests.jac (optional) core tests
 frontend/ profile, graph, results, evidence, activity
 data/     demo/catalogue.json  real/catalogue.json
 tests/
@@ -374,7 +386,7 @@ docs/     architecture.md  data-review.md  handoff.md
 README.md  AGENTS.md  CLAUDE.md  .env.example
 ```
 
-Adapt filenames to the generated Jac Hammer template. Secrets stay server-side and out of Git. Workflow: Jac Hammer → GitHub → local → back to the same Hammer project → deploy. Verify the commit SHA before deploying. For a one-day build, stay in one environment until the slice works.
+Keep backend in `main.jac` (plus optional `tests.jac`) to avoid circular imports. Adapt filenames to the generated Jac Hammer template. Secrets stay server-side and out of Git. Workflow: Jac Hammer → GitHub → local → back to the same Hammer project → deploy. Verify the commit SHA before deploying. For a one-day build, stay in one environment until the slice works.
 
 ---
 
